@@ -36,7 +36,7 @@ const TextTheme _textTheme = TextTheme(
   labelMedium: TextStyle(color: Color(0xfffc2847), fontSize: 18),
   titleMedium: TextStyle(color: Color(0xff696969), fontSize: 18),
   //bodySmall: TextStyle(color: Colors.black87, fontSize: 26),
-  bodyMedium: TextStyle(color: Colors.black54, fontSize: 14),
+  bodyMedium: TextStyle(color: Color(0xffc0c0c0), fontSize: 14),
   //bodyLarge: TextStyle(color: Colors.black12, fontSize: 26),
 );
 

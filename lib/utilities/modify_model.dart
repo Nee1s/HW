@@ -2,12 +2,13 @@ import 'package:hw/domain/content_model.dart';
 
 List<MovieCard> generateListFilms() {
   //await Future.delayed(const Duration(seconds: 1));
-  return <MovieCard>[
+  return const <MovieCard>[
     MovieCard(
       id: "1",
       title: "Красота внутри",
       voteAverage: 7.7,
       language: "Корейский",
+      speech: Lang.kor,
       country: "Корея",
       releaseDate: "2015",
       picture: "assets/byuti_insaideu.jpg",
@@ -17,6 +18,7 @@ List<MovieCard> generateListFilms() {
       title: "Пункт назначения 4",
       voteAverage: 5.7,
       language: "Английский",
+      speech: Lang.eng,
       country: "США",
       releaseDate: "2009",
       picture: "assets/the_final_destination.jpg",
@@ -26,6 +28,7 @@ List<MovieCard> generateListFilms() {
       title: "Вокруг света за 80 дней",
       voteAverage: 7.8,
       language: "Английский",
+      speech: Lang.eng,
       country: "США",
       releaseDate: "2004",
       picture: '',
@@ -35,6 +38,7 @@ List<MovieCard> generateListFilms() {
       title: "Клыки ночи",
       voteAverage: 5.7,
       language: "Английский",
+      speech: Lang.eng,
       country: "Великобритания",
       releaseDate: "2021",
       picture: "assets/night_teeth.jpg",
@@ -44,6 +48,7 @@ List<MovieCard> generateListFilms() {
       title: "Мой шпион",
       voteAverage: 6.4,
       language: "Русский",
+      speech: Lang.rus,
       country: "США",
       releaseDate: "2020",
       picture: "assets/my_spy.jpg",
@@ -53,6 +58,7 @@ List<MovieCard> generateListFilms() {
       title: "Шан-Чи и легенда десяти колец",
       voteAverage: 7.3,
       language: "Русский",
+      speech: Lang.rus,
       country: "США",
       releaseDate: "2021",
       picture: "assets/shang-chi.jpg",
@@ -62,6 +68,7 @@ List<MovieCard> generateListFilms() {
       title: "Город героев",
       voteAverage: 7.9,
       language: "Японский",
+      speech: Lang.jpn,
       country: "Япония",
       releaseDate: "2014",
       picture: "assets/big_hero_6.jpg",

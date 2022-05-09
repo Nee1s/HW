@@ -25,6 +25,9 @@ class FilmFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double widthScreen = MediaQuery.of(context).size.width;
+    final double heightScreen = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         Stack(
@@ -33,15 +36,15 @@ class FilmFrame extends StatelessWidget {
               alignment: Alignment.center,
               foregroundDecoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/backgrounds/film.png'),
+                    image: AssetImage(consts.backgroundTape),
                     fit: BoxFit.fitWidth),
               ),
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: consts.heightScreen * 0.0064,
-                      right: consts.widthScreen * 0.111,
-                      left: consts.widthScreen * 0.111),
+                      top: heightScreen * 0.0064,
+                      right: widthScreen * 0.111,
+                      left: widthScreen * 0.111),
                   child: Image.asset(
                     model.picture.isNotEmpty
                         ? model.picture
@@ -52,13 +55,13 @@ class FilmFrame extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: consts.widthScreen * 0.185,
-              right: consts.heightScreen * 0.093,
+              bottom: widthScreen * 0.185,
+              right: heightScreen * 0.093,
               child: Transform.rotate(
                   angle: -pi / 3.365,
                   child: SizedBox(
-                    width: consts.widthScreen * 0.345,
-                    height: consts.heightScreen * 0.109,
+                    width: widthScreen * 0.345,
+                    height: heightScreen * 0.109,
                     child: Align(
                       alignment: Alignment.center,
                       child: Padding(
@@ -78,11 +81,10 @@ class FilmFrame extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          height: consts.heightScreen * 0.096,
+          height: heightScreen * 0.096,
           foregroundDecoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/backgrounds/divider.png'),
-                fit: BoxFit.fitWidth),
+                image: AssetImage(consts.dividerTape), fit: BoxFit.fitWidth),
           ),
         )
       ],
@@ -104,6 +106,7 @@ class FilterField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double widthScreen = MediaQuery.of(context).size.width;
     final List<Lang> listNameRadio =
         Lang.values.where((element) => element != Lang.err).toList();
     final TextEditingController searchTransfer = TextEditingController();
@@ -116,10 +119,9 @@ class FilterField extends StatelessWidget {
             Center(
               child: Padding(
                 padding: EdgeInsets.only(
-                    left: consts.widthScreen * 0.0347,
-                    right: consts.widthScreen * 0.0347),
+                    left: widthScreen * 0.0347, right: widthScreen * 0.0347),
                 child: SizedBox(
-                  width: consts.widthScreen - 30,
+                  width: widthScreen - 30,
                   child: TextFormField(
                     controller: searchTransfer,
                     inputFormatters: [
@@ -138,7 +140,7 @@ class FilterField extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     SizedBox(
-                      width: consts.widthScreen / 1.7,
+                      width: widthScreen / 1.9,
                       child: CheckboxListTile(
                         value: withPoster ?? false,
                         onChanged: (value) => _redrawForm(context, lang, value),
@@ -147,7 +149,7 @@ class FilterField extends StatelessWidget {
                     ),
                     Center(
                       child: SizedBox(
-                        width: consts.widthScreen - 30,
+                        width: widthScreen - 30,
                         child: Column(
                             children: List.generate(
                                 listNameRadio.length,
