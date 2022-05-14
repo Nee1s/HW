@@ -4,14 +4,15 @@ double padBottPolaroidImg(double heightWidget) => heightWidget * 0.125;
 
 //Положение и размеры SizedBox текста в виджете Polaroid Frame 1
 double posLeftPolaroid1Txt(double widthWidget) => widthWidget * 0.187;
-double posBottPolaroid1Txt(double heightWidget) => heightWidget * 0.072;
+double posBottPolaroid1Txt(double heightWidget) => heightWidget * 0.08; //0.72
 
 double sizeBoxTxtWidth1(double widthWidget) => widthWidget * 0.582;
 double sizeBoxTxtHeight1(double heightWidget) => heightWidget * 0.0655;
 
 //Положение и размеры SizedBox текста в виджете Polaroid Frame 2
 double posLeftPolaroid2Txt(double widthWidget) => widthWidget * 0.1635;
-double posBottPolaroid2Txt(double heightWidget) => heightWidget * 0.0695;
+double posBottPolaroid2Txt(double heightWidget) =>
+    heightWidget * 0.0695; // 0.0695
 
 double sizeBoxTxtWidth2(double widthWidget) => widthWidget * 0.5885;
 double sizeBoxTxtHeight2(double heightWidget) => heightWidget * 0.0535;

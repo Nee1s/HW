@@ -1,4 +1,4 @@
-export 'package:hw/constants/complex_type.dart';
-export 'package:hw/constants/doubles_and_ints.dart';
-export 'package:hw/constants/queries.dart';
-export 'package:hw/constants/string.dart';
+export 'complex_type.dart';
+export 'doubles_and_ints.dart';
+export 'queries.dart';
+export 'string.dart';

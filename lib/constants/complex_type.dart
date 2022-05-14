@@ -1,1 +1,1 @@
-
+enum parts { partOne, partTwo }

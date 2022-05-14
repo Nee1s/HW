@@ -1,8 +1,6 @@
-import 'package:hw/domain/content_model.dart';
-
 import 'movie_card_constructor.dart';
 
-class MovieCard extends Film with MixinLanguage {
+class MovieCard extends Film {
   final String country;
 
   const MovieCard({

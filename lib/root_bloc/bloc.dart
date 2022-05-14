@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hw/domain/content_model.dart';
-import 'package:hw/presentation/pages/tape/bloc/event.dart';
-import 'package:hw/presentation/pages/tape/bloc/state.dart';
 
-export 'package:hw/presentation/pages/tape/bloc/event.dart';
-export 'package:hw/presentation/pages/tape/bloc/state.dart';
+import 'event.dart';
+import 'state.dart';
+
+export 'event.dart';
+export 'state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
   final List<MovieCard> listMovies = generateListFilms();
@@ -12,7 +13,6 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   RootBloc() : super(const RootState()) {
     on<FilterMovieEvent>(_onFilteringListMovies);
     on<PreloadDataEvent>(_onPreloadingData);
-    on<PaintFilterFieldEvent>(_onPaintFilterField);
   }
 
   List<MovieCard?>? get dataMovies {
@@ -41,11 +41,5 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       chkBxPoster: false,
       search: '',
     ));
-  }
-
-  void _onPaintFilterField(
-      PaintFilterFieldEvent event, Emitter<RootState> emit) {
-    emit(state.copyWith(
-        radioBLang: event.radioBtnLang, chkBxPoster: event.checkBxWithPoster));
   }
 }

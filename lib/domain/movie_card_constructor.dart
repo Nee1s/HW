@@ -1,3 +1,5 @@
+import 'package:hw/domain/content_model.dart';
+
 enum Lang { rus, spa, deu, eng, fra, jpn, kor, err }
 
 extension ConvertLangToStr on Lang {
@@ -45,7 +47,7 @@ abstract class Film {
   });
 }
 
-mixin MixinLanguage {
+mixin MixinLanguage on MovieCard {
   //Поля примешивающиеся миксином есть зло - они ломают константный конструктор
   //В контексте текущего задания можно оботись без него, примешать метод - достаточно
   //Как работает расширение полей через extension еще предстоит разобраться

@@ -2,7 +2,6 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 export 'package:hw/presentation/themes/custom_shapes.dart';
-export 'package:hw/presentation/themes/fonts.dart';
 
 const FlexSchemeColor _darkScheme = FlexSchemeColor(
   primary: Color(0xffff4f00),
@@ -30,14 +29,36 @@ const FlexSchemeColor _lightScheme = FlexSchemeColor(
 );
 
 const TextTheme _textTheme = TextTheme(
-  displayLarge: TextStyle(color: Color(0xff696969), fontSize: 53),
-  displayMedium: TextStyle(color: Color(0xff696969), fontSize: 41),
-  displaySmall: TextStyle(color: Color(0xff696969), fontSize: 36),
-  labelMedium: TextStyle(color: Color(0xfffc2847), fontSize: 18),
-  titleMedium: TextStyle(color: Color(0xff696969), fontSize: 18),
-  //bodySmall: TextStyle(color: Colors.black87, fontSize: 26),
-  bodyMedium: TextStyle(color: Color(0xffc0c0c0), fontSize: 14),
-  //bodyLarge: TextStyle(color: Colors.black12, fontSize: 26),
+  displayLarge: TextStyle(
+    color: Color(0xff696969),
+    fontSize: 53,
+  ),
+  displayMedium: TextStyle(
+    color: Color(0xff696969),
+    fontSize: 41,
+  ),
+  displaySmall: TextStyle(
+    color: Color(0xff696969),
+    fontSize: 36,
+  ),
+  labelMedium: TextStyle(
+    color: Color(0xfffc2847),
+    fontSize: 18,
+  ),
+  titleMedium: TextStyle(
+    color: Color(0xff696969),
+    fontSize: 18,
+  ),
+  // bodyMedium: TextStyle(
+  //   color: Color(0xffbdbdbd),
+  //   fontSize: 14,
+  //   fontFamily: 'KingthingsPetrock',
+  // ),
+  bodyMedium: TextStyle(
+    color: Color(0xff000000),
+    fontSize: 14,
+    fontFamily: 'Pecita',
+  ),
 );
 
 final ThemeData lightMainTheme = FlexThemeData.light(
