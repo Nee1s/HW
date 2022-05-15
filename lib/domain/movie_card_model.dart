@@ -1,9 +1,9 @@
 import 'movie_card_constructor.dart';
 
-class MovieCard extends Film {
+class MovieModel extends Film {
   final String country;
 
-  const MovieCard({
+  const MovieModel({
     String id = "0",
     String title = "something_gonna_wrong",
     String picture = "",

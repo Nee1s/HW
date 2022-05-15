@@ -4,6 +4,51 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
+import 'package:hw/presentation/themes/text_styles.dart';
+import 'package:hw/root_bloc/bloc.dart';
+
+class ScrollListView extends StatefulWidget {
+  const ScrollListView({Key? key}) : super(key: key);
+
+  @override
+  State<ScrollListView> createState() => _ScrollListViewState();
+}
+
+class _ScrollListViewState extends State<ScrollListView> {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double widthScreen = constraints.maxWidth;
+        final double heightScreen = constraints.maxHeight;
+
+        const double factorElementVerticalPadding = 0.009;
+        final double padVerticalElement =
+            heightScreen * factorElementVerticalPadding;
+
+        const double factorElementHorizontalPadding = 0.05;
+        final double padHorizontalElement =
+            widthScreen * factorElementHorizontalPadding;
+
+        return BlocBuilder<RootBloc, RootState>(
+          buildWhen: (oldS, newS) => oldS.dataMovies != newS.dataMovies,
+          builder: (context, state) {
+            return ListView.builder(
+              padding: EdgeInsets.symmetric(
+                vertical: padVerticalElement,
+                horizontal: padHorizontalElement,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Book.fromModel(state.dataMovies!.localMovies[index]);
+              },
+              itemCount: 7,
+            );
+          },
+        );
+      },
+    );
+  }
+}
 
 class Book extends StatelessWidget {
   const Book({
@@ -23,7 +68,7 @@ class Book extends StatelessWidget {
   final String description;
   final String language;
 
-  factory Book.fromModel(MovieCard model) {
+  factory Book.fromModel(MovieModel model) {
     return Book(
       title: model.title,
       pictureLink: model.picture,
@@ -119,6 +164,7 @@ class Book extends StatelessWidget {
                                 child: Center(
                                   child: AutoSizeText(
                                     title,
+                                    style: ThemeFonts.generalDescriptiveStyle,
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     minFontSize: minFontSize,
@@ -133,6 +179,7 @@ class Book extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: AutoSizeText(
                                   '$releaseDate г.',
+                                  style: ThemeFonts.generalDescriptiveStyle,
                                   maxLines: 1,
                                   minFontSize: minFontSize,
                                   overflow: TextOverflow.ellipsis,
@@ -145,6 +192,7 @@ class Book extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: AutoSizeText(
                                   'Оценка: $voteAverage',
+                                  style: ThemeFonts.generalDescriptiveStyle,
                                   maxLines: 1,
                                   minFontSize: minFontSize,
                                   overflow: TextOverflow.ellipsis,
@@ -157,6 +205,7 @@ class Book extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: AutoSizeText(
                                   'Варианты озвучивания:\n$language',
+                                  style: ThemeFonts.generalDescriptiveStyle,
                                   maxLines: 2,
                                   minFontSize: minFontSize,
                                   overflow: TextOverflow.ellipsis,
@@ -180,6 +229,7 @@ class Book extends StatelessWidget {
                           children: [
                             AutoSizeText(
                               description,
+                              style: ThemeFonts.generalDescriptiveStyle,
                               maxLines: 11,
                               minFontSize: 8,
                               overflow: TextOverflow.ellipsis,

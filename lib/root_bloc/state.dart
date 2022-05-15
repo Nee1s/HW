@@ -2,9 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hw/domain/content_model.dart';
 
 class RootState extends Equatable {
-  //позже список переедет в свернутый класс 'всей' модели
-  //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-  final List<MovieCard>? dataMovies;
+  final MovieContentModel? dataMovies;
 
   final Lang? radioBLang;
   final bool? chkBxPoster;
@@ -18,7 +16,7 @@ class RootState extends Equatable {
   });
 
   RootState copyWith({
-    List<MovieCard>? dataMovies,
+    MovieContentModel? dataMovies,
     Lang? radioBLang,
     bool? chkBxPoster,
     String? search,

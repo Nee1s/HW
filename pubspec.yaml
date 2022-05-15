@@ -81,12 +81,21 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-      - family: KingthingsPetrock
+      - family: KingthingPetrock
         fonts:
-          - asset: assets/fonts/Kingthings_Petrock.ttf
-      - family: Pecita
+          - asset: assets/fonts/kingthing_petrock.ttf
+
+      - family: Pacifico
         fonts:
-          - asset: assets/fonts/Pecita.ttf
+          - asset: assets/fonts/pacifico.ttf
+
+      - family: MarriageAnt
+        fonts:
+          - asset: assets/fonts/mariage_ant_d.ttf
+
+      - family: BadScript
+        fonts:
+          - asset: assets/fonts/bad_script.ttf
 
   #   - family: Schyler
   #     fonts:

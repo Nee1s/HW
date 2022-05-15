@@ -3,7 +3,7 @@ import 'package:hw/domain/content_model.dart';
 
 class InfoFilmPage extends StatefulWidget {
   const InfoFilmPage({required this.filmContent, Key? key}) : super(key: key);
-  final MovieCard filmContent;
+  final MovieModel filmContent;
 
   @override
   State<InfoFilmPage> createState() => _InfoFilmPageState();
