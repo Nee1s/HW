@@ -4,6 +4,9 @@ const String pathNoImage = 'assets/no_image.jpg';
 //const String backgroundTape = 'assets/backgrounds/film.png';
 
 const String appBarBck = 'assets/backgrounds/appBar.png';
+const String btmNavBarFirstTab = 'assets/backgrounds/bottomTabBarLeft.jpg';
+const String btmNavBarSecondTab = 'assets/backgrounds/bottomTabBarRight.jpg';
+
 const String gridBackground = 'assets/backgrounds/grid_frame.png';
 const String scaffoldBackground = 'assets/backgrounds/scaffold_background.jpg';
 

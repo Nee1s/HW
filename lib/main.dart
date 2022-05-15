@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hw/presentation/pages/preview_list/bloc/preview_bloc.dart';
-import 'package:hw/presentation/pages/preview_list/preview_page.dart';
+import 'package:hw/presentation/pages/preview/bloc/preview_bloc.dart';
+import 'package:hw/presentation/pages/preview/preview_page.dart';
 import 'package:hw/presentation/themes/themes_films_app.dart' as themes;
 import 'package:hw/root_bloc/bloc.dart';
 

@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/presentation/pages/common_widgets/widgets.dart';
-import 'package:hw/presentation/pages/preview_list/bloc/preview_bloc.dart';
+import 'package:hw/presentation/pages/preview/bloc/preview_bloc.dart';
 import 'package:hw/root_bloc/bloc.dart';
 
 import 'grid_view_widgets.dart';
@@ -68,9 +68,11 @@ class _PreviewPageState extends State<PreviewPage> {
             return Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(state.tabIndex! == 0
-                        ? 'assets/backgrounds/bottomTabBarLeft.jpg'
-                        : 'assets/backgrounds/bottomTabBarRight.jpg'),
+                    image: AssetImage(
+                      state.tabIndex! == 0
+                          ? consts.btmNavBarFirstTab
+                          : consts.btmNavBarSecondTab,
+                    ),
                     fit: BoxFit.fill),
               ),
               child: BottomNavigationBar(

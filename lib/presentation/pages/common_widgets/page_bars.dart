@@ -54,6 +54,34 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleTextStyle: ThemeFonts.generalDeclarativeStyle,
       iconTheme: const IconThemeData(
           color: Color(0xffff7e00), opacity: 0.85, size: 12.0),
+      actions: [],
+    );
+  }
+}
+
+class ClickSearch extends StatelessWidget {
+  const ClickSearch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(consts.appBarBck),
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext localContext) {return AlertDialog(
+            backgroundColor: Colors.transparent,
+            content: ,
+          );},
+        );
+      },
     );
   }
 }
