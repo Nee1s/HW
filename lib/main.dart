@@ -23,6 +23,8 @@ class HWAppCourses extends StatelessWidget {
         darkTheme: themes.darkMainTheme,
         themeMode: ThemeMode.light,
         initialRoute: '/',
+        //Что-то картинка на bottomNavigationBar сильно попахивает
+        //время будет - заменю.
         routes: <String, WidgetBuilder>{
           '/': (context) => const PreviewPage(),
           '/search': (context) => const SearchPage(),

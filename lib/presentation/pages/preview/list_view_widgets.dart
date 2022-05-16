@@ -134,7 +134,7 @@ class Book extends StatelessWidget {
               (factorTxtScale * heightBox / widthBox).floor().toDouble();
 
           return Center(
-            child: GectureDetector(
+            child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
                   '/info',
