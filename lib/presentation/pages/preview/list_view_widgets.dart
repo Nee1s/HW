@@ -1,11 +1,11 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
+import 'package:hw/presentation/common_widgets/body_page_widgets.dart';
 import 'package:hw/presentation/themes/text_styles.dart';
 import 'package:hw/root_bloc/bloc.dart';
+import 'package:hw/utilities/wraps.dart';
 
 class ScrollListView extends StatefulWidget {
   const ScrollListView({Key? key}) : super(key: key);
@@ -58,6 +58,7 @@ class Book extends StatelessWidget {
     required this.voteAverage,
     required this.releaseDate,
     required this.pictureLink,
+    required this.link,
     Key? key,
   }) : super(key: key);
 
@@ -67,6 +68,7 @@ class Book extends StatelessWidget {
   final String releaseDate;
   final String description;
   final String language;
+  final MovieModel link;
 
   factory Book.fromModel(MovieModel model) {
     return Book(
@@ -76,6 +78,7 @@ class Book extends StatelessWidget {
       releaseDate: model.releaseDate,
       description: model.description,
       language: model.language,
+      link: model,
     );
   }
 
@@ -131,180 +134,125 @@ class Book extends StatelessWidget {
               (factorTxtScale * heightBox / widthBox).floor().toDouble();
 
           return Center(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(consts.bookBackground),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: padHorizontal,
-                    vertical: padVertical,
+            child: GectureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/info',
+                  arguments: InfoTransfer(model: link),
+                );
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(consts.bookBackground),
+                    fit: BoxFit.fill,
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 7,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 8,
-                              child: Center(
-                                child:
-                                    SimplePolaroidFrame(picture: pictureLink),
-                              ),
-                            ),
-                            //На тексте тени нету, но это
-                            Expanded(
-                              flex: 2,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
+                ),
+                child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: padHorizontal,
+                      vertical: padVertical,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 7,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 8,
                                 child: Center(
+                                  child:
+                                      SimplePolaroidFrame(picture: pictureLink),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      title,
+                                      style: ThemeFonts.generalDescriptiveStyle,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      minFontSize: minFontSize,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
                                   child: AutoSizeText(
-                                    title,
+                                    '$releaseDate г.',
                                     style: ThemeFonts.generalDescriptiveStyle,
-                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    minFontSize: minFontSize,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AutoSizeText(
+                                    'Оценка: $voteAverage',
+                                    style: ThemeFonts.generalDescriptiveStyle,
+                                    maxLines: 1,
+                                    minFontSize: minFontSize,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AutoSizeText(
+                                    'Варианты озвучивания:\n$language',
+                                    style: ThemeFonts.generalDescriptiveStyle,
                                     maxLines: 2,
                                     minFontSize: minFontSize,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  '$releaseDate г.',
-                                  style: ThemeFonts.generalDescriptiveStyle,
-                                  maxLines: 1,
-                                  minFontSize: minFontSize,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  'Оценка: $voteAverage',
-                                  style: ThemeFonts.generalDescriptiveStyle,
-                                  maxLines: 1,
-                                  minFontSize: minFontSize,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  'Варианты озвучивания:\n$language',
-                                  style: ThemeFonts.generalDescriptiveStyle,
-                                  maxLines: 2,
-                                  minFontSize: minFontSize,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //Гугл сказал так нормально делать, но я не уверен
-                      //виджет Wrap, вроде не работает с Expanded, по понятным причинам
-                      const Expanded(
-                        flex: 2,
-                        child: SizedBox.shrink(),
-                      ),
-                      //Можно было поиграться с вырваниваниями, что бы в колонку не оборачивать текст
-                      //но время уже совсем как песок
-                      Expanded(
-                        flex: 7,
-                        child: Column(
-                          children: [
-                            AutoSizeText(
-                              description,
-                              style: ThemeFonts.generalDescriptiveStyle,
-                              maxLines: 11,
-                              minFontSize: 8,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        //Гугл сказал так нормально делать, но я не уверен
+                        //виджет Wrap, вроде не работает с Expanded, по понятным причинам
+                        const Expanded(
+                          flex: 2,
+                          child: SizedBox.shrink(),
                         ),
-                      )
-                    ],
-                  )),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class SimplePolaroidFrame extends StatelessWidget {
-  final String picture;
-
-  const SimplePolaroidFrame({required this.picture, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 26 / 45,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final double widthBox = constraints.maxWidth;
-          final double heightBox = constraints.maxHeight;
-
-          const double factorWidthPaddingImgSide = 0.045;
-          final double paddingImgSide = widthBox * factorWidthPaddingImgSide;
-
-          const double factorHeightPaddingImgBott = 0.130;
-          final double paddingImgBottom =
-              heightBox * factorHeightPaddingImgBott;
-
-          final double randAngleRotation = (Random().nextInt(180) - 90) / 10;
-
-          return Transform.rotate(
-            angle: randAngleRotation * pi / 180.0,
-            child: Container(
-              alignment: Alignment.center,
-              width: widthBox,
-              foregroundDecoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(consts.backgroundSimplePolaroidOne),
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: paddingImgBottom,
-                  left: paddingImgSide,
-                  right: paddingImgSide,
-                ),
-                child: Image.asset(
-                  picture.isNotEmpty ? picture : consts.pathNoImage,
-                ),
+                        //Можно было поиграться с вырваниваниями, что бы в колонку не оборачивать текст
+                        //но время уже совсем как песок
+                        Expanded(
+                          flex: 7,
+                          child: Column(
+                            children: [
+                              AutoSizeText(
+                                description,
+                                style: ThemeFonts.generalDescriptiveStyle,
+                                maxLines: 11,
+                                minFontSize: 8,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
               ),
             ),
           );
         },
       ),
     );
-  }
-}
-
-String randPolaroidBackground() {
-  final int picker = Random().nextInt(2);
-  if (picker == 0) {
-    return consts.backgroundSimplePolaroidOne;
-  } else {
-    return consts.backgroundSimplePolaroidTwo;
   }
 }

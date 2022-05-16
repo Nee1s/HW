@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
 import 'package:hw/presentation/themes/text_styles.dart';
+import 'package:hw/utilities/wraps.dart';
 
 import 'paddings_sizes.dart';
 
@@ -30,17 +31,22 @@ Widget giveMeRandPolaroid(MovieModel model) {
 }
 
 class PolaroidFrameGreen extends StatelessWidget {
+  const PolaroidFrameGreen(
+      {required this.title,
+      required this.picture,
+      required this.link,
+      Key? key})
+      : super(key: key);
+
   final String title;
   final String picture;
-
-  const PolaroidFrameGreen(
-      {required this.title, required this.picture, Key? key})
-      : super(key: key);
+  final MovieModel link;
 
   factory PolaroidFrameGreen.fromModel({required MovieModel model}) {
     return PolaroidFrameGreen(
       title: model.title,
       picture: model.picture,
+      link: model,
     );
   }
 
@@ -50,14 +56,20 @@ class PolaroidFrameGreen extends StatelessWidget {
       angle: -3.25 * pi / 180.0,
       child: AspectRatio(
         aspectRatio: 26 / 45,
-        child: InkWell(
-          onTap: () {},
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double widthBox = constraints.maxWidth;
-              final double heightBox = constraints.maxHeight;
-              final double paddingImgSide = padSidePolaroidImg(widthBox);
-              return Stack(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double widthBox = constraints.maxWidth;
+            final double heightBox = constraints.maxHeight;
+            final double paddingImgSide = padSidePolaroidImg(widthBox);
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/info',
+                  arguments: InfoTransfer(model: link),
+                );
+              },
+              child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -102,9 +114,9 @@ class PolaroidFrameGreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -112,17 +124,22 @@ class PolaroidFrameGreen extends StatelessWidget {
 }
 
 class PolaroidFrameRedRight extends StatelessWidget {
+  const PolaroidFrameRedRight(
+      {required this.title,
+      required this.picture,
+      required this.link,
+      Key? key})
+      : super(key: key);
+
   final String title;
   final String picture;
-
-  const PolaroidFrameRedRight(
-      {required this.title, required this.picture, Key? key})
-      : super(key: key);
+  final MovieModel link;
 
   factory PolaroidFrameRedRight.fromModel({required MovieModel model}) {
     return PolaroidFrameRedRight(
       title: model.title,
       picture: model.picture,
+      link: model,
     );
   }
 
@@ -132,15 +149,20 @@ class PolaroidFrameRedRight extends StatelessWidget {
       angle: 4.0 * pi / 180.0,
       child: AspectRatio(
         aspectRatio: 26 / 45,
-        child: InkWell(
-          onTap: () {},
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double widthBox = constraints.maxWidth;
-              final double heightBox = constraints.maxHeight;
-              final double paddingImgSide = padSidePolaroidImg(widthBox);
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double widthBox = constraints.maxWidth;
+            final double heightBox = constraints.maxHeight;
+            final double paddingImgSide = padSidePolaroidImg(widthBox);
 
-              return Stack(
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/info',
+                  arguments: InfoTransfer(model: link),
+                );
+              },
+              child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -185,9 +207,9 @@ class PolaroidFrameRedRight extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -195,17 +217,22 @@ class PolaroidFrameRedRight extends StatelessWidget {
 }
 
 class PolaroidFrameRedLeft extends StatelessWidget {
+  const PolaroidFrameRedLeft(
+      {required this.title,
+      required this.picture,
+      required this.link,
+      Key? key})
+      : super(key: key);
+
   final String title;
   final String picture;
-
-  const PolaroidFrameRedLeft(
-      {required this.title, required this.picture, Key? key})
-      : super(key: key);
+  final MovieModel link;
 
   factory PolaroidFrameRedLeft.fromModel({required MovieModel model}) {
     return PolaroidFrameRedLeft(
       title: model.title,
       picture: model.picture,
+      link: model,
     );
   }
 
@@ -215,15 +242,20 @@ class PolaroidFrameRedLeft extends StatelessWidget {
       angle: -9.0 * pi / 180.0,
       child: AspectRatio(
         aspectRatio: 26 / 45,
-        child: InkWell(
-          onTap: () {},
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double widthBox = constraints.maxWidth;
-              final double heightBox = constraints.maxHeight;
-              final double paddingImgSide = padSidePolaroidImg(widthBox);
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double widthBox = constraints.maxWidth;
+            final double heightBox = constraints.maxHeight;
+            final double paddingImgSide = padSidePolaroidImg(widthBox);
 
-              return Stack(
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/info',
+                  arguments: InfoTransfer(model: link),
+                );
+              },
+              child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -268,9 +300,9 @@ class PolaroidFrameRedLeft extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -278,17 +310,22 @@ class PolaroidFrameRedLeft extends StatelessWidget {
 }
 
 class PolaroidFrameBlue extends StatelessWidget {
+  const PolaroidFrameBlue(
+      {required this.title,
+      required this.picture,
+      required this.link,
+      Key? key})
+      : super(key: key);
+
   final String title;
   final String picture;
-
-  const PolaroidFrameBlue(
-      {required this.title, required this.picture, Key? key})
-      : super(key: key);
+  final MovieModel link;
 
   factory PolaroidFrameBlue.fromModel({required MovieModel model}) {
     return PolaroidFrameBlue(
       title: model.title,
       picture: model.picture,
+      link: model,
     );
   }
 
@@ -298,15 +335,20 @@ class PolaroidFrameBlue extends StatelessWidget {
       angle: 7.75 * pi / 180.0,
       child: AspectRatio(
         aspectRatio: 26 / 45,
-        child: InkWell(
-          onTap: () {},
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double widthBox = constraints.maxWidth;
-              final double heightBox = constraints.maxHeight;
-              final double paddingImgSide = padSidePolaroidImg(widthBox);
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double widthBox = constraints.maxWidth;
+            final double heightBox = constraints.maxHeight;
+            final double paddingImgSide = padSidePolaroidImg(widthBox);
 
-              return Stack(
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/info',
+                  arguments: InfoTransfer(model: link),
+                );
+              },
+              child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -351,12 +393,74 @@ class PolaroidFrameBlue extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
+  }
+}
+
+class SimplePolaroidFrame extends StatelessWidget {
+  final String picture;
+
+  const SimplePolaroidFrame({required this.picture, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 26 / 45,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double widthBox = constraints.maxWidth;
+          final double heightBox = constraints.maxHeight;
+
+          const double factorWidthPaddingImgSide = 0.045;
+          final double paddingImgSide = widthBox * factorWidthPaddingImgSide;
+
+          const double factorHeightPaddingImgBott = 0.130;
+          final double paddingImgBottom =
+              heightBox * factorHeightPaddingImgBott;
+
+          final double randAngleRotation = (Random().nextInt(180) - 90) / 10;
+
+          return Transform.rotate(
+            angle: randAngleRotation * pi / 180.0,
+            child: Container(
+              alignment: Alignment.center,
+              width: widthBox,
+              foregroundDecoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(consts.backgroundSimplePolaroidOne),
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: paddingImgBottom,
+                  left: paddingImgSide,
+                  right: paddingImgSide,
+                ),
+                child: Image.asset(
+                  picture.isNotEmpty ? picture : consts.pathNoImage,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+String randPolaroidBackground() {
+  final int picker = Random().nextInt(2);
+  if (picker == 0) {
+    return consts.backgroundSimplePolaroidOne;
+  } else {
+    return consts.backgroundSimplePolaroidTwo;
   }
 }
 

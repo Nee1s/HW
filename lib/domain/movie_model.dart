@@ -1,4 +1,4 @@
-import 'movie_card_constructor.dart';
+import 'movie_model_constructor.dart';
 
 class MovieModel extends Film {
   final String country;

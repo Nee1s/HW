@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hw/presentation/pages/common_widgets/widgets.dart';
+import 'package:hw/presentation/common_widgets/widgets.dart';
 import 'package:hw/root_bloc/bloc.dart';
 
 class CatalogView extends StatefulWidget {
