@@ -26,7 +26,6 @@ class _CatalogViewState extends State<CatalogView> {
             widthScreen * factorElementHorizontalPadding;
         //обернут в widget CatalogView
         return BlocBuilder<RootBloc, RootState>(
-          buildWhen: (oldS, newS) => oldS.dataMovies != newS.dataMovies,
           builder: (context, state) {
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,6 +1,6 @@
 import 'package:hw/domain/content_model.dart';
 
-enum Lang { rus, spa, deu, eng, fra, jpn, kor, err }
+enum Lang { rus, spa, eng, err }
 
 extension ConvertLangToStr on Lang {
   String toPrettyString() {
@@ -9,16 +9,8 @@ extension ConvertLangToStr on Lang {
         return "Русский";
       case Lang.spa:
         return "Испанский";
-      case Lang.deu:
-        return "Немецкий";
       case Lang.eng:
         return "Английский";
-      case Lang.fra:
-        return "Французский";
-      case Lang.jpn:
-        return "Японский";
-      case Lang.kor:
-        return "Корейский";
       default:
         return "Неизвестный язык";
     }
@@ -26,15 +18,6 @@ extension ConvertLangToStr on Lang {
 }
 
 abstract class Film {
-  final String id;
-  final String title;
-  final String picture;
-  final double voteAverage;
-  final String releaseDate;
-  final String description;
-  final String language;
-  final Lang speech;
-
   const Film({
     this.id = "0",
     this.title = "something_gonna_wrong",

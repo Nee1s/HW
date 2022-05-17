@@ -1,7 +1,13 @@
 import 'movie_model_constructor.dart';
 
-class MovieModel extends Film {
-  final String country;
+class MovieModel {
+  final String id;
+  final String title;
+  final String cookTime;
+  final String picture;
+  final double voteAverage;
+  final String linkSource;
+  final String description;
 
   const MovieModel({
     String id = "0",

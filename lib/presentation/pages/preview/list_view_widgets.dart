@@ -31,7 +31,6 @@ class _ScrollListViewState extends State<ScrollListView> {
             widthScreen * factorElementHorizontalPadding;
 
         return BlocBuilder<RootBloc, RootState>(
-          buildWhen: (oldS, newS) => oldS.dataMovies != newS.dataMovies,
           builder: (context, state) {
             return ListView.builder(
               padding: EdgeInsets.symmetric(
