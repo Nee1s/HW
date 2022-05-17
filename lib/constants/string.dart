@@ -1,4 +1,4 @@
-const String pathNoImage = 'assets/no_image.jpg';
+const String pathNoImage = 'assets/images/no_image.jpg';
 
 //const String dividerTape = 'assets/backgrounds/divider.png';
 //const String backgroundTape = 'assets/backgrounds/film.png';

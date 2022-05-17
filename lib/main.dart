@@ -38,7 +38,10 @@ class HWAppCourses extends StatelessWidget {
 
                 return MaterialPageRoute(
                   builder: (context) {
-                    return InfoPage.fromModel(model: linkModel.model);
+                    return InfoPage.fromModel(
+                      model: linkModel.model,
+                      key: ValueKey<int>(int.parse(linkModel.model.id)),
+                    );
                   },
                 );
               }

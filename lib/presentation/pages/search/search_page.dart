@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
       create: (_) => SearchBloc(),
       child: SafeArea(
         child: Scaffold(
-          appBar: const CommonAppBar(title: 'Catalog'),
+          appBar: const CommonAppBar(title: 'Search'),
           body: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(

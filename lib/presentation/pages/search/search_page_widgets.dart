@@ -35,7 +35,7 @@ class _FilterFieldState extends State<FilterField> {
                       Center(
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxWidth: _width - 10.0,
+                            maxWidth: _width - 25.0,
                           ),
                           child: TextField(
                             controller: searchTransfer,
@@ -58,7 +58,7 @@ class _FilterFieldState extends State<FilterField> {
                               builder: (context, state) {
                                 return ConstrainedBox(
                                   constraints: BoxConstraints(
-                                    maxWidth: _width - 10.0,
+                                    maxWidth: _width - 25.0,
                                   ),
                                   child: CheckboxListTile(
                                     value: state.chkBxPoster ?? false,
@@ -79,7 +79,7 @@ class _FilterFieldState extends State<FilterField> {
                               builder: (context, state) {
                                 return ConstrainedBox(
                                   constraints: BoxConstraints(
-                                    maxWidth: _width - 10.0,
+                                    maxWidth: _width - 25.0,
                                   ),
                                   child: Column(
                                     children: List.generate(
