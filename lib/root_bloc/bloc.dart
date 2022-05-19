@@ -11,7 +11,7 @@ export 'state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
   final MovieContentModel movies =
-      MovieContentModel(localMovies: generateListFilms());
+      MovieContentModel(yummlyRecipes: generateListFilms());
 
   RootBloc() : super(const RootState()) {
     on<FilterMovieEvent>(_onFilteringListMovies);
@@ -23,7 +23,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   }
 
   void _onFilteringListMovies(FilterMovieEvent event, Emitter<RootState> emit) {
-    List<MovieModel> filteringMovies = List.from(movies.localMovies);
+    List<MovieModel> filteringMovies = List.from(movies.yummlyRecipes);
     event.search?.isNotEmpty ?? false
         ? filteringMovies = filterTitleListMovie(filteringMovies, event.search!)
         : null;
@@ -36,7 +36,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
         : null;
     emit(
       state.copyWith(
-        dataMovies: MovieContentModel(localMovies: filteringMovies),
+        dataMovies: MovieContentModel(yummlyRecipes: filteringMovies),
       ),
     );
   }

@@ -38,7 +38,7 @@ class _ScrollListViewState extends State<ScrollListView> {
                 horizontal: padHorizontalElement,
               ),
               itemBuilder: (BuildContext context, int index) {
-                return Book.fromModel(state.dataMovies!.localMovies[index]);
+                return Book.fromModel(state.dataMovies!.yummlyRecipes[index]);
               },
               itemCount: 7,
             );

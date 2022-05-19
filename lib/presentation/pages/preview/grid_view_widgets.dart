@@ -38,8 +38,8 @@ class _CatalogViewState extends State<CatalogView> {
                     vertical: padVerticalElement,
                     horizontal: padHorizontalElement,
                   ),
-                  child:
-                      giveMeRandPolaroid(state.dataMovies!.localMovies[index]),
+                  child: giveMeRandPolaroid(
+                      state.dataMovies!.yummlyRecipes[index]),
                 );
               },
               scrollDirection:
