@@ -8,7 +8,7 @@ export 'parts_recipe.dart';
 
 class RecipeModel {
   final String title;
-  final String imageLink;
+  late final String imageLink;
   final String? authorLink;
   final String? sourceRecipeLink;
   final String? authorName;
