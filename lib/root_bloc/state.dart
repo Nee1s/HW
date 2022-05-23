@@ -2,33 +2,24 @@ import 'package:equatable/equatable.dart';
 import 'package:hw/domain/content_model.dart';
 
 class RootState extends Equatable {
-  final MovieContentModel? dataMovies;
+  final Future<RecipesContentModel?>? dataRecipes;
 
-  final Lang? radioBLang;
-  final bool? chkBxPoster;
   final String? search;
 
   const RootState({
-    this.dataMovies,
-    this.radioBLang = Lang.err,
-    this.chkBxPoster = false,
+    this.dataRecipes,
     this.search = '',
   });
 
   RootState copyWith({
-    MovieContentModel? dataMovies,
-    Lang? radioBLang,
-    bool? chkBxPoster,
-    String? search,
+    Future<RecipesContentModel?>? newData,
+    String? changedSearch,
   }) =>
       RootState(
-        dataMovies: dataMovies ?? this.dataMovies,
-        radioBLang: radioBLang ?? this.radioBLang,
-        chkBxPoster: chkBxPoster ?? this.chkBxPoster,
-        search: search ?? this.search,
+        dataRecipes: newData ?? dataRecipes,
+        search: changedSearch ?? search,
       );
 
   @override
-  List<Object?> get props =>
-      [dataMovies ?? 0, radioBLang ?? 0, chkBxPoster ?? 0, search ?? 0];
+  List<Object?> get props => [dataRecipes ?? 0, search ?? 0];
 }

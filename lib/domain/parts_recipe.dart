@@ -1,9 +1,9 @@
 class SearchTag {
   SearchTag({
-    required this.displayName,
-    required this.id,
+    required this.nameTag,
+    required this.link,
   });
 
-  final String displayName;
-  final String id;
+  final String nameTag;
+  final String link;
 }

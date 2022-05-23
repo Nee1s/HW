@@ -14,28 +14,22 @@ class InfoPage extends StatefulWidget {
     required this.title,
     required this.picture,
     required this.voteAverage,
-    required this.releaseDate,
     required this.description,
-    required this.speech,
   }) : super(key: key);
 
   final String title;
   final String picture;
   final double voteAverage;
-  final String releaseDate;
   final String description;
-  final Lang speech;
 
   static const String path = '/info';
 
-  factory InfoPage.fromModel({required MovieModel model, Key? key}) {
+  factory InfoPage.fromModel({required RecipeModel model, Key? key}) {
     return InfoPage(
       title: model.title,
-      picture: model.picture,
-      voteAverage: model.voteAverage,
-      releaseDate: model.releaseDate,
-      speech: model.speech,
-      description: model.description,
+      picture: model.imageLink,
+      voteAverage: model.rating ?? 0.0,
+      description: model.description ?? '',
     );
   }
 
@@ -100,23 +94,7 @@ class _InfoPageState extends State<InfoPage> {
                                 ),
                                 Expanded(
                                   child: AutoSizeText(
-                                    'Дата выхода: ',
-                                    style: ThemeFonts.generalNominativeStyle,
-                                    minFontSize: 8,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: AutoSizeText(
                                     'Оценка: ',
-                                    style: ThemeFonts.generalNominativeStyle,
-                                    minFontSize: 8,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: AutoSizeText(
-                                    'Язык озвучивания: ',
                                     style: ThemeFonts.generalNominativeStyle,
                                     minFontSize: 8,
                                     overflow: TextOverflow.ellipsis,
@@ -139,21 +117,7 @@ class _InfoPageState extends State<InfoPage> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    '$widget.releaseDate г.',
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
                                     widget.voteAverage.toString(),
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    widget.speech.toPrettyString(),
                                     style: ThemeFonts.generalDescriptiveStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),

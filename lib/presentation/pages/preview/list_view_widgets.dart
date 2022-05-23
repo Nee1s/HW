@@ -32,15 +32,32 @@ class _ScrollListViewState extends State<ScrollListView> {
 
         return BlocBuilder<RootBloc, RootState>(
           builder: (context, state) {
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(
-                vertical: padVerticalElement,
-                horizontal: padHorizontalElement,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return Book.fromModel(state.dataMovies!.yummlyRecipes[index]);
+            return FutureBuilder(
+              future: state.dataRecipes,
+              builder: (BuildContext context,
+                  AsyncSnapshot<RecipesContentModel?> loadingData) {
+                return loadingData.connectionState != ConnectionState.done
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : loadingData.hasData
+                        ? (loadingData.data?.yummlyRecipes?.isNotEmpty ?? false)
+                            ? ListView.builder(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: padVerticalElement,
+                                  horizontal: padHorizontalElement,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Book.fromModel(
+                                      loadingData.data!.yummlyRecipes![index]);
+                                },
+                                itemCount: 7,
+                              )
+                            : const Center(
+                                child: Text('Рецептов нет, насяльника'))
+                        : const Center(
+                            child: Text('Джамшут провода сгрыз, насяльника>'));
               },
-              itemCount: 7,
             );
           },
         );
@@ -53,9 +70,7 @@ class Book extends StatelessWidget {
   const Book({
     required this.title,
     required this.description,
-    required this.language,
     required this.voteAverage,
-    required this.releaseDate,
     required this.pictureLink,
     required this.link,
     Key? key,
@@ -64,19 +79,15 @@ class Book extends StatelessWidget {
   final String title;
   final String pictureLink;
   final double voteAverage;
-  final String releaseDate;
   final String description;
-  final String language;
-  final MovieModel link;
+  final RecipeModel link;
 
-  factory Book.fromModel(MovieModel model) {
+  factory Book.fromModel(RecipeModel model) {
     return Book(
       title: model.title,
-      pictureLink: model.picture,
-      voteAverage: model.voteAverage,
-      releaseDate: model.releaseDate,
-      description: model.description,
-      language: model.language,
+      pictureLink: model.imageLink,
+      voteAverage: model.rating ?? 0.0,
+      description: model.description ?? '',
       link: model,
     );
   }
@@ -186,35 +197,9 @@ class Book extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: AutoSizeText(
-                                    '$releaseDate г.',
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    maxLines: 1,
-                                    minFontSize: minFontSize,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: AutoSizeText(
                                     'Оценка: $voteAverage',
                                     style: ThemeFonts.generalDescriptiveStyle,
                                     maxLines: 1,
-                                    minFontSize: minFontSize,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: AutoSizeText(
-                                    'Варианты озвучивания:\n$language',
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    maxLines: 2,
                                     minFontSize: minFontSize,
                                     overflow: TextOverflow.ellipsis,
                                   ),

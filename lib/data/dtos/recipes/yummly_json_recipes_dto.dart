@@ -4,7 +4,10 @@ part 'yummly_json_recipes_dto.g.dart';
 
 ///пример json'ки с данными:
 ///https://yummly2.p.rapidapi.com/feeds/list/?rapidapi-key=2c21aeb330mshe372d92111fe6a9p12086bjsnb7624140804a
-
+///api чисто для тестовых примеров и обучения, много грязи, мешанины, нет эндпоинта
+///с запросом конкретного элемента к сожалению, эндпоинт со списком выгружает сразу всю доступную
+///информацию. Лучших вариантов по данной тематике(под неё верстка и была задумана),
+///не подверженных санкциям, к сожалению, не нашел.
 @JsonSerializable()
 class ContentDTO {
   @JsonKey(name: 'feed')
@@ -15,12 +18,12 @@ class ContentDTO {
   });
 
   factory ContentDTO.fromJson(Map<String, dynamic> json) =>
-      _$RecipeDTOFromJson(json);
+      _$ContentDTOFromJson(json);
 }
 
 @JsonSerializable()
 class RecipeDataDTO {
-  @JsonKey(name: 'display', defaultValue: const RecipeGeneralDataDTO(title: ''))
+  @JsonKey(name: 'display')
   final RecipeGeneralDataDTO? general;
 
   @JsonKey(name: 'type')
@@ -31,12 +34,12 @@ class RecipeDataDTO {
 
   RecipeDataDTO({
     required this.general,
-    this.type,
-    this.additions,
+    required this.type,
+    required this.additions,
   });
 
   factory RecipeDataDTO.fromJson(Map<String, dynamic> json) =>
-      _$ShowCardDataDTOFromJson(json);
+      _$RecipeDataDTOFromJson(json);
 }
 
 /// элементы наименования, имя автора и ссылки на источник
@@ -48,11 +51,15 @@ class RecipeGeneralDataDTO {
   )
   final String? title;
 
+  @JsonKey(name: 'images', defaultValue: [])
+  final List<String>? reserveImageLink;
+
   @JsonKey(name: 'source')
   final RecipeSourceDTO? source;
 
   const RecipeGeneralDataDTO({
     required this.title,
+    required this.reserveImageLink,
     this.source,
   });
 
@@ -84,38 +91,34 @@ class RecipeSourceDTO {
 ///Куча всего дополнительного
 @JsonSerializable()
 class RecipeAdditionDataDTO {
-  // description - content - description - text
-  // tags[] - content - tags
-  // ingredients[] - content - ingredientLines
-  // nutrition - content - nutrition - nutritionEstimates[]
+  @JsonKey(name: 'description')
+  final RecipeDescriptionDTO? description;
 
   //Вариант ручками
   // @JsonKey(name: 'tags', readValue: getListTags)
   // final List<RecipeTagDTO>? tags;
-  @JsonKey(name: 'description')
-  final RecipeDescriptionDTO? description;
-
   @JsonKey(name: 'tags')
   final Map<String, List<RecipeTagDTO>>? tags;
 
-  @JsonKey(
-      name: 'details',
-      defaultValue: const RecipeAdditionDataDetailDTO(imageLink: ''))
+  @JsonKey(name: 'details')
   final RecipeAdditionDataDetailDTO? details;
 
   @JsonKey(name: 'ingredientLines')
   final List<RecipeIngredientsDTO>? ingredients;
 
+  @JsonKey(name: 'reviews')
+  final RecipeReviewDTO? reviewRatting;
+
   @JsonKey(name: 'nutrition')
   final RecipeNutritionDTO? nutrition;
 
-  RecipeAdditionDataDTO({
-    this.description,
-    this.tags,
-    required this.details,
-    this.nutrition,
-    this.ingredients,
-  });
+  RecipeAdditionDataDTO(
+      {this.description,
+      this.tags,
+      required this.details,
+      this.nutrition,
+      this.ingredients,
+      this.reviewRatting});
 
   factory RecipeAdditionDataDTO.fromJson(Map<String, dynamic> json) =>
       _$RecipeAdditionDataDTOFromJson(json);
@@ -163,35 +166,34 @@ class RecipeTagDTO {
 
 @JsonSerializable()
 class RecipeAdditionDataDetailDTO {
-  @JsonKey(name: 'resizableImageUrl', defaultValue: '')
-  final String? imageLink;
-
-  @JsonKey(name: 'resizableImageWidth')
-  final int? sizeImageWidth;
-
-  @JsonKey(name: 'resizableImageHeight')
-  final int? sizeImageHeight;
-
   @JsonKey(name: 'totalTime')
   final String? totalTime;
 
-  @JsonKey(name: 'rating')
-  final int? rating;
+  @JsonKey(name: 'images', defaultValue: [])
+  final List<RecipeDetailImageLinkDTO>? listImageLinks;
 
   @JsonKey(name: 'globalId')
   final String? reviewId;
 
   const RecipeAdditionDataDetailDTO({
-    required this.imageLink,
-    this.sizeImageHeight,
-    this.sizeImageWidth,
+    required this.listImageLinks,
     this.totalTime,
     this.reviewId,
-    this.rating,
   });
 
   factory RecipeAdditionDataDetailDTO.fromJson(Map<String, dynamic> json) =>
       _$RecipeAdditionDataDetailDTOFromJson(json);
+}
+
+@JsonSerializable()
+class RecipeDetailImageLinkDTO {
+  @JsonKey(name: 'resizableImageUrl', defaultValue: '')
+  final String? imageLink;
+
+  RecipeDetailImageLinkDTO({required this.imageLink});
+
+  factory RecipeDetailImageLinkDTO.fromJson(Map<String, dynamic> json) =>
+      _$RecipeDetailImageLinkDTOFromJson(json);
 }
 
 @JsonSerializable()
@@ -208,15 +210,15 @@ class RecipeNutritionDTO {
 @JsonSerializable()
 class RecipeNutrientDTO {
   @JsonKey(name: 'attribute')
-  final String? nameCode;
+  final String? codeNutrient;
 
   @JsonKey(name: 'value')
-  final int? quantity;
+  final num? quantity;
 
   @JsonKey(name: 'unit')
   final RecipeNutrientUnitDTO? unit;
 
-  RecipeNutrientDTO({this.nameCode, this.quantity, this.unit});
+  RecipeNutrientDTO({this.codeNutrient, this.quantity, this.unit});
 
   factory RecipeNutrientDTO.fromJson(Map<String, dynamic> json) =>
       _$RecipeNutrientDTOFromJson(json);
@@ -235,10 +237,6 @@ class RecipeNutrientUnitDTO {
 
 @JsonSerializable()
 class RecipeIngredientsDTO {
-  // - ingredientName - content - ingredientLines - ingredient
-  // - quantity - content - ingredientLines - quantity
-  // - unit - content - ingredientLines - unit
-  // - clarification - content - ingredientLines - remainder
   @JsonKey(name: 'unit')
   final String? unit;
 
@@ -249,11 +247,22 @@ class RecipeIngredientsDTO {
   final String? clarification;
 
   @JsonKey(name: 'quantity')
-  final double? quantity;
+  final num? quantity;
 
   RecipeIngredientsDTO(
       {this.ingredientName, this.unit, this.quantity, this.clarification});
 
   factory RecipeIngredientsDTO.fromJson(Map<String, dynamic> json) =>
       _$RecipeIngredientsDTOFromJson(json);
+}
+
+@JsonSerializable()
+class RecipeReviewDTO {
+  @JsonKey(name: 'averageRating')
+  final double? rating;
+
+  RecipeReviewDTO({this.rating});
+
+  factory RecipeReviewDTO.fromJson(Map<String, dynamic> json) =>
+      _$RecipeReviewDTOFromJson(json);
 }

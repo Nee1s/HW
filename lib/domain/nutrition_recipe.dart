@@ -8,6 +8,11 @@ class Nutrient {
   final FoodElement element;
   final double quantity;
   final String unitAbbreviation;
+
+  String get getQuantity {
+    return quantity.toString() +
+        (unitAbbreviation.isNotEmpty ? ' $unitAbbreviation' : '');
+  }
 }
 
 enum FoodElement {
@@ -64,43 +69,6 @@ extension ConvertNutritionToStr on FoodElement {
         return 'Vitamin A';
       default:
         return "Undefined element";
-    }
-  }
-
-  static FoodElement createFromStr(String code) {
-    switch (code) {
-      case 'K':
-        return FoodElement.k;
-      case 'NA':
-        return FoodElement.na;
-      case 'CHOLE':
-        return FoodElement.chol;
-      case 'FATRN':
-        return FoodElement.fatrn;
-      case 'FASAT':
-        return FoodElement.fasat;
-      case 'CHOCDF':
-        return FoodElement.carb;
-      case 'FIBTG':
-        return FoodElement.fiber;
-      case 'PROCNT':
-        return FoodElement.prot;
-      case 'VITC':
-        return FoodElement.vitC;
-      case 'CA':
-        return FoodElement.ca;
-      case 'FE':
-        return FoodElement.fe;
-      case 'SUGAR':
-        return FoodElement.sugar;
-      case 'ENERC_KCAL':
-        return FoodElement.enrgKcal;
-      case 'FAT':
-        return FoodElement.fat;
-      case 'VITA_IU':
-        return FoodElement.vitA;
-      default:
-        return FoodElement.err;
     }
   }
 }

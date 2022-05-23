@@ -14,7 +14,7 @@ import 'paddings_sizes.dart';
 //грузит быстрее на моём калькуляторе. Понятно, что так лучше не делать и поддерживать такое извращение сложнее
 //Поскольку сделав 1 виджет, еще нужно будет подробить его на виджеты картинки и текста, и вот тут снова встанет вопрос
 //ограничений - constraints, не тот уровень гемороя для дз курсов
-Widget giveMeRandPolaroid(MovieModel model) {
+Widget giveMeRandPolaroid(RecipeModel model) {
   final int picker = Random().nextInt(5);
   switch (picker) {
     case 1:
@@ -40,12 +40,12 @@ class PolaroidFrameGreen extends StatelessWidget {
 
   final String title;
   final String picture;
-  final MovieModel link;
+  final RecipeModel link;
 
-  factory PolaroidFrameGreen.fromModel({required MovieModel model}) {
+  factory PolaroidFrameGreen.fromModel({required RecipeModel model}) {
     return PolaroidFrameGreen(
       title: model.title,
-      picture: model.picture,
+      picture: model.imageLink,
       link: model,
     );
   }
@@ -133,12 +133,12 @@ class PolaroidFrameRedRight extends StatelessWidget {
 
   final String title;
   final String picture;
-  final MovieModel link;
+  final RecipeModel link;
 
-  factory PolaroidFrameRedRight.fromModel({required MovieModel model}) {
+  factory PolaroidFrameRedRight.fromModel({required RecipeModel model}) {
     return PolaroidFrameRedRight(
       title: model.title,
-      picture: model.picture,
+      picture: model.imageLink,
       link: model,
     );
   }
@@ -226,12 +226,12 @@ class PolaroidFrameRedLeft extends StatelessWidget {
 
   final String title;
   final String picture;
-  final MovieModel link;
+  final RecipeModel link;
 
-  factory PolaroidFrameRedLeft.fromModel({required MovieModel model}) {
+  factory PolaroidFrameRedLeft.fromModel({required RecipeModel model}) {
     return PolaroidFrameRedLeft(
       title: model.title,
-      picture: model.picture,
+      picture: model.imageLink,
       link: model,
     );
   }
@@ -319,12 +319,12 @@ class PolaroidFrameBlue extends StatelessWidget {
 
   final String title;
   final String picture;
-  final MovieModel link;
+  final RecipeModel link;
 
-  factory PolaroidFrameBlue.fromModel({required MovieModel model}) {
+  factory PolaroidFrameBlue.fromModel({required RecipeModel model}) {
     return PolaroidFrameBlue(
       title: model.title,
-      picture: model.picture,
+      picture: model.imageLink,
       link: model,
     );
   }

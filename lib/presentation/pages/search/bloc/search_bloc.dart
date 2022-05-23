@@ -13,7 +13,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   void _repaintingFilter(RepaintFilterEvent event, Emitter<SearchState> emit) {
     emit(state.copyWith(
-      radioBLang: event.filterLang,
       chkBxPoster: event.filterWithPoster,
     ));
   }

@@ -45,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Padding(
                 padding: EdgeInsets.all(paddingCommon),
-                child: const FilterField()),
+                child: const FilterFields()),
           ),
           //Дойдут руки - напишу нормальный bottomNavigationBar с анимацей,
           //а не это "чудо" инженерной мысли, с подменой картинок

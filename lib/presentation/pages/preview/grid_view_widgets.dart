@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hw/domain/content_model.dart';
 import 'package:hw/presentation/common_widgets/widgets.dart';
 import 'package:hw/root_bloc/bloc.dart';
 
@@ -27,27 +28,45 @@ class _CatalogViewState extends State<CatalogView> {
         //обернут в widget CatalogView
         return BlocBuilder<RootBloc, RootState>(
           builder: (context, state) {
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 5 / 7,
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: padVerticalElement,
-                    horizontal: padHorizontalElement,
-                  ),
-                  child: giveMeRandPolaroid(
-                      state.dataMovies!.yummlyRecipes[index]),
-                );
+            return FutureBuilder(
+              future: state.dataRecipes,
+              builder: (BuildContext context,
+                  AsyncSnapshot<RecipesContentModel?> loadingData) {
+                return loadingData.connectionState != ConnectionState.done
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : loadingData.hasData
+                        ? (loadingData.data?.yummlyRecipes?.isNotEmpty ?? false)
+                            ? GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 5 / 7,
+                                  crossAxisCount: 2,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: padVerticalElement,
+                                      horizontal: padHorizontalElement,
+                                    ),
+                                    child: giveMeRandPolaroid(loadingData
+                                        .data!.yummlyRecipes![index]),
+                                  );
+                                },
+                                scrollDirection:
+                                    MediaQuery.of(context).orientation ==
+                                            Orientation.portrait
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                itemCount: 7,
+                                shrinkWrap: true,
+                              )
+                            : const Center(
+                                child: Text('Рецепты Джамшут съел, насяльника'))
+                        : const Center(
+                            child: Text('Рецепты Джамшут отобрал, насяльника'));
               },
-              scrollDirection:
-                  MediaQuery.of(context).orientation == Orientation.portrait
-                      ? Axis.vertical
-                      : Axis.horizontal,
-              itemCount: 7,
-              shrinkWrap: true,
             );
           },
         );

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hw/domain/content_model.dart';
+import 'package:hw/data/repositories/recipes/yummly_recipes_repository.dart';
 
 import 'event.dart';
 import 'state.dart';
@@ -10,43 +10,23 @@ export 'event.dart';
 export 'state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
-  final MovieContentModel movies =
-      MovieContentModel(yummlyRecipes: generateListFilms());
+  final RecipesRepository recipesRepository;
 
-  RootBloc() : super(const RootState()) {
-    on<FilterMovieEvent>(_onFilteringListMovies);
+  RootBloc(this.recipesRepository) : super(const RootState()) {
+    on<FilterMovieEvent>(_onFilterListMovies);
     on<PreloadDataEvent>(_onPreloadingData);
   }
 
-  MovieContentModel? get dataMovies {
-    return state.dataMovies ?? movies;
-  }
-
-  void _onFilteringListMovies(FilterMovieEvent event, Emitter<RootState> emit) {
-    List<MovieModel> filteringMovies = List.from(movies.yummlyRecipes);
-    event.search?.isNotEmpty ?? false
-        ? filteringMovies = filterTitleListMovie(filteringMovies, event.search!)
-        : null;
-    event.filterLang != null && event.filterLang != Lang.err
-        ? filteringMovies =
-            filterLangEnumListMovie(filteringMovies, event.filterLang!)
-        : null;
-    event.filterWithPoster ?? false
-        ? filteringMovies = filterPicturedListMovie(filteringMovies)
-        : null;
+  void _onFilterListMovies(FilterMovieEvent event, Emitter<RootState> emit) {
     emit(
       state.copyWith(
-        dataMovies: MovieContentModel(yummlyRecipes: filteringMovies),
+        newData: null,
       ),
     );
   }
 
   void _onPreloadingData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(state.copyWith(
-      dataMovies: movies,
-      radioBLang: Lang.err,
-      chkBxPoster: false,
-      search: '',
-    ));
+        newData: recipesRepository.loadData(start: 0, count: 5)));
   }
 }
