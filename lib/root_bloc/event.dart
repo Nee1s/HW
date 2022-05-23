@@ -16,9 +16,4 @@ class FilterMovieEvent extends RootEvent {
   List<Object?> get props => [search ?? 0];
 }
 
-class PreloadDataEvent extends RootEvent {
-  const PreloadDataEvent();
-
-  @override
-  List<Object?> get props => [];
-}
+class PreloadDataEvent extends RootEvent {}

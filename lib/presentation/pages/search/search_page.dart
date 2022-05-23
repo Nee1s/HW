@@ -15,12 +15,6 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   @override
-  void didChangeDependencies() {
-    context.read<RootBloc>().add(const PreloadDataEvent());
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double heightScreen = MediaQuery.of(context).size.height;
 

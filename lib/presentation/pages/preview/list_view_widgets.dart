@@ -54,9 +54,11 @@ class _ScrollListViewState extends State<ScrollListView> {
                                 itemCount: 7,
                               )
                             : const Center(
-                                child: Text('Рецептов нет, насяльника'))
+                                child: Text(
+                                    'Джамшут рецепты написал, но там все пусто, насяльника'))
                         : const Center(
-                            child: Text('Джамшут провода сгрыз, насяльника>'));
+                            child:
+                                Text('Рецепты Джамшут не написал, насяльника'));
               },
             );
           },

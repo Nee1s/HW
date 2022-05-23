@@ -14,7 +14,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 
   RootBloc(this.recipesRepository) : super(const RootState()) {
     on<FilterMovieEvent>(_onFilterListMovies);
-    on<PreloadDataEvent>(_onPreloadingData);
+    on<PreloadDataEvent>(_onPreloadData);
   }
 
   void _onFilterListMovies(FilterMovieEvent event, Emitter<RootState> emit) {
@@ -25,7 +25,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     );
   }
 
-  void _onPreloadingData(PreloadDataEvent event, Emitter<RootState> emit) {
+  void _onPreloadData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(state.copyWith(
         newData: recipesRepository.loadData(start: 0, count: 5)));
   }

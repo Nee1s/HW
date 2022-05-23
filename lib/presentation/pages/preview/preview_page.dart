@@ -18,7 +18,7 @@ class PreviewPage extends StatefulWidget {
 class _PreviewPageState extends State<PreviewPage> {
   @override
   void didChangeDependencies() {
-    context.read<RootBloc>().add(const PreloadDataEvent());
+    context.read<RootBloc>().add(PreloadDataEvent());
     super.didChangeDependencies();
   }
 

@@ -63,9 +63,11 @@ class _CatalogViewState extends State<CatalogView> {
                                 shrinkWrap: true,
                               )
                             : const Center(
-                                child: Text('Рецепты Джамшут съел, насяльника'))
+                                child: Text(
+                                    'Джамшут рецепты написал, но там все пусто, насяльника'))
                         : const Center(
-                            child: Text('Рецепты Джамшут отобрал, насяльника'));
+                            child:
+                                Text('Рецепты Джамшут не написал, насяльника'));
               },
             );
           },

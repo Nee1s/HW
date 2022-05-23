@@ -35,14 +35,12 @@ class RecipesRepository {
         ),
       );
 
-      final json = response.data as Map<String, dynamic>;
+      final json = response.data; // as Map<String, dynamic>;
       final ContentDTO dto = ContentDTO.fromJson(json);
       final RecipesContentModel model = dto.toDomain();
 
       return model;
     } on DioError catch (error) {
-      // todo отправка в Firebase Crashlytics
-
       final statusCode = error.response?.statusCode;
       //showErrorDialog(context, error: statusCode?.toString() ?? '');
       return null;
