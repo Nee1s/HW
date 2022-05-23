@@ -53,7 +53,8 @@ const TextTheme _textTheme = TextTheme(
     fontFamily: 'KingthingPetrock',
   ),
   bodyMedium: TextStyle(
-    color: Color(0xffbdbdbd),
+    color: Colors.black,
+    //color: Color(0xffbdbdbd),
     fontSize: 20,
     fontFamily: 'KingthingPetrock',
   ),
