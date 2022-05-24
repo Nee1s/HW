@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'yummly_json_recipes_dto.g.dart';
 
+///ссылка на api:
+///https://rapidapi.com/apidojo/api/yummly2/
 ///пример json'ки с данными:
 ///https://yummly2.p.rapidapi.com/feeds/list/?rapidapi-key=2c21aeb330mshe372d92111fe6a9p12086bjsnb7624140804a
 ///api чисто для тестовых примеров и обучения, много грязи, мешанины, нет эндпоинта

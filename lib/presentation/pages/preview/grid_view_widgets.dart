@@ -59,7 +59,9 @@ class _CatalogViewState extends State<CatalogView> {
                                             Orientation.portrait
                                         ? Axis.vertical
                                         : Axis.horizontal,
-                                itemCount: 7,
+                                itemCount:
+                                    loadingData.data?.yummlyRecipes?.length ??
+                                        0,
                                 shrinkWrap: true,
                               )
                             : const Center(

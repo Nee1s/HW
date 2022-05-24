@@ -51,7 +51,9 @@ class _ScrollListViewState extends State<ScrollListView> {
                                   return Book.fromModel(
                                       loadingData.data!.yummlyRecipes![index]);
                                 },
-                                itemCount: 7,
+                                itemCount:
+                                    loadingData.data?.yummlyRecipes?.length ??
+                                        0,
                               )
                             : const Center(
                                 child: Text(

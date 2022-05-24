@@ -27,6 +27,6 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 
   void _onPreloadData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(state.copyWith(
-        newData: recipesRepository.loadData(start: 0, count: 5)));
+        newData: recipesRepository.loadData(start: 0, count: 10)));
   }
 }

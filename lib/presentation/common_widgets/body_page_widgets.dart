@@ -87,7 +87,7 @@ class PolaroidFrameGreen extends StatelessWidget {
                         left: paddingImgSide,
                         right: paddingImgSide,
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         picture.isNotEmpty ? picture : consts.pathNoImage,
                       ),
                     ),
@@ -180,7 +180,7 @@ class PolaroidFrameRedRight extends StatelessWidget {
                         left: paddingImgSide,
                         right: paddingImgSide,
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         picture.isNotEmpty ? picture : consts.pathNoImage,
                       ),
                     ),
@@ -273,7 +273,7 @@ class PolaroidFrameRedLeft extends StatelessWidget {
                         left: paddingImgSide,
                         right: paddingImgSide,
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         picture.isNotEmpty ? picture : consts.pathNoImage,
                       ),
                     ),
@@ -366,7 +366,7 @@ class PolaroidFrameBlue extends StatelessWidget {
                         left: paddingImgSide,
                         right: paddingImgSide,
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         picture.isNotEmpty ? picture : consts.pathNoImage,
                       ),
                     ),
@@ -443,7 +443,7 @@ class SimplePolaroidFrame extends StatelessWidget {
                   left: paddingImgSide,
                   right: paddingImgSide,
                 ),
-                child: Image.asset(
+                child: Image.network(
                   picture.isNotEmpty ? picture : consts.pathNoImage,
                 ),
               ),

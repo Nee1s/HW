@@ -11,12 +11,8 @@ extension ContentDTOToDomain on ContentDTO {
         ((oneRecipe.type ?? '') == 'single recipe')
             ? tempListRec.add(oneRecipe._toDomain())
             : null;
-        if ((oneRecipe.type ?? '') == 'single recipe') {
-          print('один есть, давай еще');
-        }
       }
     } else {
-      print('ну типа лист был пуст');
       tempListRec = null;
     }
 
@@ -114,7 +110,7 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
     return tempList;
   }
 
-  static FoodElement _createFromStr(String code) {
+  FoodElement _createFromStr(String code) {
     switch (code) {
       case 'K':
         return FoodElement.k;

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/data/dtos/recipes/yummly_json_recipes_dto.dart';
-import 'package:hw/data/mappers/recipes/yummly_json_mapper.dart';
+import 'package:hw/data/mappers/recipes/yummly_json_recipes_mapper.dart';
 import 'package:hw/domain/content_model.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -18,7 +18,7 @@ class RecipesRepository {
     required int count,
   }) async {
     try {
-      final Response<dynamic> response = await _dio.get<List<dynamic>>(
+      final Response<dynamic> response = await _dio.get<Map<String, dynamic>>(
         consts.linkAllRecipes,
         queryParameters: <String, dynamic>{
           'limit': count.toString(),
