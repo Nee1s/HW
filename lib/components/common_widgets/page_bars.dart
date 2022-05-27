@@ -53,18 +53,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       titleTextStyle: ThemeFonts.generalDeclarativeStyle,
       iconTheme: const IconThemeData(
-          color: Color(0xffff7e00), opacity: 0.85, size: 12.0),
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.search,
-            size: 30.0,
-          ),
-          onPressed: () {
-            Navigator.of(context).pushNamed('/search');
-          },
-        ),
-      ],
+        color: Color(0xffff7e00),
+        opacity: 0.85,
+        size: 12.0,
+      ),
     );
   }
 }

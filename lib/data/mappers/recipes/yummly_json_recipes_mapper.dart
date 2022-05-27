@@ -75,15 +75,25 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
 
   List<Ingredient> get _createListIngredients {
     final List<Ingredient> tempList;
+    final Set<String> alreadyExistsIngredients = <String>{};
     if (additions?.ingredients?.isNotEmpty ?? false) {
       tempList = <Ingredient>[];
       for (var ingredientDTO in additions!.ingredients!) {
-        tempList.add(Ingredient(
-          name: ingredientDTO.ingredientName ?? '',
-          quantity: ingredientDTO.quantity?.toDouble() ?? 0.0,
-          unit: ingredientDTO.unit ?? '',
-          clarification: ingredientDTO.clarification ?? '',
-        ));
+        if (alreadyExistsIngredients
+                .contains(ingredientDTO.ingredientName ?? '') ||
+            (ingredientDTO.ingredientName ?? '').isNotEmpty) {
+          continue;
+        } else {
+          alreadyExistsIngredients.add(ingredientDTO.ingredientName!);
+          tempList.add(
+            Ingredient(
+              name: ingredientDTO.ingredientName!,
+              quantity: ingredientDTO.quantity?.toDouble(),
+              unit: ingredientDTO.unit,
+              clarification: ingredientDTO.clarification,
+            ),
+          );
+        }
       }
     } else {
       tempList = <Ingredient>[];
@@ -96,12 +106,16 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
     if (additions?.nutrition?.nutritionList?.isNotEmpty ?? false) {
       tempList = <Nutrient>[];
       for (var nutrientDTO in additions!.nutrition!.nutritionList!) {
-        (nutrientDTO.quantity?.isNaN ?? false)
-            ? tempList.add(Nutrient(
-                element: _createFromStr(nutrientDTO.codeNutrient ?? ''),
-                quantity: nutrientDTO.quantity?.toDouble() ?? 0.0,
-                unitAbbreviation: nutrientDTO.unit?.unitName ?? '',
-              ))
+        (nutrientDTO.quantity?.isNaN ?? false) &&
+                (_createFromStr(nutrientDTO.codeNutrient ?? '') !=
+                    FoodElement.err)
+            ? tempList.add(
+                Nutrient(
+                  element: _createFromStr(nutrientDTO.codeNutrient ?? ''),
+                  quantity: nutrientDTO.quantity?.toDouble() ?? 0.0,
+                  unitAbbreviation: nutrientDTO.unit?.unitName ?? '',
+                ),
+              )
             : null;
       }
     } else {

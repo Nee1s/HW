@@ -1,53 +1,32 @@
-import 'dart:math';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:hw/components/common_widgets/page_bars.dart';
+import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
-import 'package:hw/domain/content_model.dart';
-import 'package:hw/presentation/common_widgets/body_page_widgets.dart';
-import 'package:hw/presentation/common_widgets/page_bars.dart';
-import 'package:hw/presentation/themes/themes_films_app.dart';
+import 'package:hw/presentation/pages/info/info_page_widgets.dart';
 
-class InfoPage extends StatefulWidget {
+class InfoPage extends StatelessWidget {
   const InfoPage({
+    required this.linkModel,
     Key? key,
-    required this.title,
-    required this.picture,
-    required this.voteAverage,
-    required this.description,
   }) : super(key: key);
 
-  final String title;
-  final String picture;
-  final double voteAverage;
-  final String description;
+  final InfoTransfer linkModel;
 
   static const String path = '/info';
 
-  factory InfoPage.fromModel({required RecipeModel model, Key? key}) {
+  factory InfoPage.fromModel({required Object model, Key? key}) {
+    final InfoTransfer _linkModel = InfoTransfer(link: model);
     return InfoPage(
-      title: model.title,
-      picture: model.imageLink,
-      voteAverage: model.rating ?? 0.0,
-      description: model.description ?? '',
+      linkModel: _linkModel,
     );
   }
 
   @override
-  State<InfoPage> createState() => _InfoPageState();
-}
-
-class _InfoPageState extends State<InfoPage> {
-  @override
   Widget build(BuildContext context) {
     final double heightScreen = MediaQuery.of(context).size.height;
-    final double widthScreen = MediaQuery.of(context).size.width;
 
-    const double factorVerticalPadding = 0.85;
-    const double factorHorizontalPadding = 0.1;
-
-    final double paddingVertical = heightScreen * factorVerticalPadding;
-    final double paddingHorizontal = widthScreen * factorHorizontalPadding;
+    const double factorCommonPadding = 0.02;
+    final double paddingCommon = heightScreen * factorCommonPadding;
 
     return SafeArea(
       child: Scaffold(
@@ -55,91 +34,34 @@ class _InfoPageState extends State<InfoPage> {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(consts.scaffoldBackground), fit: BoxFit.fill),
-          ),
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(consts.backgroundInfo), fit: BoxFit.fill),
+              image: AssetImage(consts.scaffoldBackgrnd),
+              fit: BoxFit.fill,
             ),
-            child: Transform.rotate(
-              angle: 4.5 * pi / 180,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: paddingVertical,
-                  horizontal: paddingHorizontal,
+          ),
+          foregroundDecoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(consts.gridBackgrnd),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(paddingCommon),
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(consts.backgroundInfo),
+                  fit: BoxFit.fill,
                 ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              flex: 9,
-                              child:
-                                  SimplePolaroidFrame(picture: widget.picture)),
-                          Expanded(
-                            flex: 4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
-                                Expanded(
-                                  child: AutoSizeText(
-                                    'Наименование: ',
-                                    style: ThemeFonts.generalNominativeStyle,
-                                    minFontSize: 8,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: AutoSizeText(
-                                    'Оценка: ',
-                                    style: ThemeFonts.generalNominativeStyle,
-                                    minFontSize: 8,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    widget.title,
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    widget.voteAverage.toString(),
-                                    style: ThemeFonts.generalDescriptiveStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 13,
-                      child: Text(
-                        widget.description,
-                        textAlign: TextAlign.center,
-                        style: ThemeFonts.generalDescriptiveStyle,
-                        maxLines: 10,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
-                  ],
-                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 23,
+                    child: MainContentInfo.fromModel(
+                        model: linkModel.getLinkModel),
+                  ),
+                  const Spacer(flex: 11),
+                ],
               ),
             ),
           ),

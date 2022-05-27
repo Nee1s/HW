@@ -1,5 +1,6 @@
 import 'package:hw/domain/parts_recipe.dart';
-import 'package:hw/utilities/filter_fields_domain/group_recipe_model.dart';
+
+import 'group_recipe_model.dart';
 
 class FilterFieldsModel {
   final List<ViewCategory> categoryList;

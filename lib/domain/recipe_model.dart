@@ -42,7 +42,7 @@ class RecipeModel {
   ///На всякий, менять сам не собираюсь, но возможно что-то считать придется
   List<Ingredient> get ingredients => List.unmodifiable(_ingredients);
 
-  List<Nutrient>? get nutrition => List.unmodifiable(_nutrition);
+  List<Nutrient> get nutrition => List.unmodifiable(_nutrition);
 
-  List<SearchTag>? get tags => List.unmodifiable(_tags);
+  List<SearchTag> get tags => List.unmodifiable(_tags);
 }

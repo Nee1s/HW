@@ -1,5 +1,5 @@
 import 'package:hw/data/dtos/categories/yummly_json_category_view.dart';
-import 'package:hw/utilities/filter_fields_domain/group_recipe_model.dart';
+import 'package:hw/domain/filter_fields_domain/group_recipe_model.dart';
 
 extension CategoryDTOToDomain on CategoryDTO {
   List<ViewCategory>? toPartDomain() {

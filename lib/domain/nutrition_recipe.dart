@@ -9,8 +9,8 @@ class Nutrient {
   final double quantity;
   final String unitAbbreviation;
 
-  String get getQuantity {
-    return quantity.toString() +
+  String get viewInList {
+    return '${element.toPrettyString()} ${quantity.toString()}' +
         (unitAbbreviation.isNotEmpty ? ' $unitAbbreviation' : '');
   }
 }
