@@ -1,26 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hw/domain/content_model.dart';
-import 'package:hw/presentation/pages/tape/bloc/event.dart';
-import 'package:hw/presentation/pages/tape/bloc/state.dart';
 
-export 'package:hw/presentation/pages/tape/bloc/event.dart';
-export 'package:hw/presentation/pages/tape/bloc/state.dart';
+import 'event.dart';
+import 'state.dart';
+
+export 'package:flutter_bloc/flutter_bloc.dart';
+
+export 'event.dart';
+export 'state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
-  final List<MovieCard> listMovies = generateListFilms();
+  final MovieContentModel movies =
+      MovieContentModel(localMovies: generateListFilms());
 
   RootBloc() : super(const RootState()) {
     on<FilterMovieEvent>(_onFilteringListMovies);
     on<PreloadDataEvent>(_onPreloadingData);
-    on<PaintFilterFieldEvent>(_onPaintFilterField);
   }
 
-  List<MovieCard?>? get dataMovies {
-    return state.dataMovies ?? listMovies;
+  MovieContentModel? get dataMovies {
+    return state.dataMovies ?? movies;
   }
 
   void _onFilteringListMovies(FilterMovieEvent event, Emitter<RootState> emit) {
-    List<MovieCard> filteringMovies = List.from(listMovies);
+    List<MovieModel> filteringMovies = List.from(movies.localMovies);
     event.search?.isNotEmpty ?? false
         ? filteringMovies = filterTitleListMovie(filteringMovies, event.search!)
         : null;
@@ -31,21 +34,19 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     event.filterWithPoster ?? false
         ? filteringMovies = filterPicturedListMovie(filteringMovies)
         : null;
-    emit(state.copyWith(dataMovies: filteringMovies));
+    emit(
+      state.copyWith(
+        dataMovies: MovieContentModel(localMovies: filteringMovies),
+      ),
+    );
   }
 
   void _onPreloadingData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(state.copyWith(
-      dataMovies: listMovies,
+      dataMovies: movies,
       radioBLang: Lang.err,
       chkBxPoster: false,
       search: '',
     ));
-  }
-
-  void _onPaintFilterField(
-      PaintFilterFieldEvent event, Emitter<RootState> emit) {
-    emit(state.copyWith(
-        radioBLang: event.radioBtnLang, chkBxPoster: event.checkBxWithPoster));
   }
 }

@@ -1,80 +1,87 @@
 import 'package:hw/domain/content_model.dart';
 
-List<MovieCard> generateListFilms() {
+List<MovieModel> generateListFilms() {
   //await Future.delayed(const Duration(seconds: 1));
-  return <MovieCard>[
-    MovieCard(
+  return const <MovieModel>[
+    MovieModel(
       id: "1",
       title: "Красота внутри",
       voteAverage: 7.7,
-      language: "Корейский",
+      language: "Корейское озвучивание",
+      speech: Lang.kor,
       country: "Корея",
       releaseDate: "2015",
-      picture: "assets/byuti_insaideu.jpg",
+      picture: "assets/images/byuti_insaideu.jpg",
     ),
-    MovieCard(
+    MovieModel(
       id: "2",
       title: "Пункт назначения 4",
       voteAverage: 5.7,
-      language: "Английский",
+      language: "Английское озвучивание",
+      speech: Lang.eng,
       country: "США",
       releaseDate: "2009",
-      picture: "assets/the_final_destination.jpg",
+      picture: "assets/images/the_final_destination.jpg",
     ),
-    MovieCard(
+    MovieModel(
       id: "3",
       title: "Вокруг света за 80 дней",
       voteAverage: 7.8,
-      language: "Английский",
+      language: "Английское озвучивание",
+      speech: Lang.eng,
       country: "США",
       releaseDate: "2004",
       picture: '',
     ),
-    MovieCard(
+    MovieModel(
       id: "4",
       title: "Клыки ночи",
       voteAverage: 5.7,
-      language: "Английский",
+      language: "Английское озвучивание",
+      speech: Lang.eng,
       country: "Великобритания",
       releaseDate: "2021",
-      picture: "assets/night_teeth.jpg",
+      picture: "assets/images/night_teeth.jpg",
     ),
-    MovieCard(
+    MovieModel(
       id: "5",
       title: "Мой шпион",
       voteAverage: 6.4,
-      language: "Русский",
+      language: "Русское озвучивание",
+      speech: Lang.rus,
       country: "США",
       releaseDate: "2020",
-      picture: "assets/my_spy.jpg",
+      picture: "assets/images/my_spy.jpg",
     ),
-    MovieCard(
+    MovieModel(
       id: "6",
-      title: "Шан-Чи и легенда десяти колец",
+      title: "Шан-Чи. легенда десяти колец",
       voteAverage: 7.3,
-      language: "Русский",
+      language: "Русское озвучивание",
+      speech: Lang.rus,
       country: "США",
       releaseDate: "2021",
-      picture: "assets/shang-chi.jpg",
+      picture: "assets/images/shang-chi.jpg",
     ),
-    MovieCard(
+    MovieModel(
       id: "7",
       title: "Город героев",
       voteAverage: 7.9,
-      language: "Японский",
+      language: "Японское озвучивание",
+      speech: Lang.jpn,
       country: "Япония",
       releaseDate: "2014",
-      picture: "assets/big_hero_6.jpg",
+      picture: "assets/images/big_hero_6.jpg",
     ),
   ];
 }
 
-List<MovieCard> filterTitleListMovie(
-        final List<MovieCard> takenList, String title) =>
+List<MovieModel> filterTitleListMovie(
+        final List<MovieModel> takenList, String title) =>
     takenList.where((movie) => movie.title.contains(title)).toList();
 
-List<MovieCard> filterDateListMovie(
-    final List<MovieCard> takenList, int askDate,
+List<MovieModel> filterDateListMovie(
+    final List<MovieModel> takenList, int askDate,
     {bool? isOver}) {
   switch (isOver) {
     case true:
@@ -92,8 +99,8 @@ List<MovieCard> filterDateListMovie(
   }
 }
 
-List<MovieCard> filterVoteListMovie(
-    final List<MovieCard> takenList, double vote,
+List<MovieModel> filterVoteListMovie(
+    final List<MovieModel> takenList, double vote,
     {bool? isOver}) {
   switch (isOver) {
     case true:
@@ -105,11 +112,11 @@ List<MovieCard> filterVoteListMovie(
   }
 }
 
-List<MovieCard> filterPicturedListMovie(final List<MovieCard> takenList) {
+List<MovieModel> filterPicturedListMovie(final List<MovieModel> takenList) {
   return takenList.where((movie) => movie.picture.isNotEmpty).toList();
 }
 
-List<MovieCard> filterLangEnumListMovie(
-    final List<MovieCard> takenList, Lang filterLang) {
+List<MovieModel> filterLangEnumListMovie(
+    final List<MovieModel> takenList, Lang filterLang) {
   return takenList.where((movie) => movie.speech == filterLang).toList();
 }

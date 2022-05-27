@@ -1,9 +1,9 @@
-import 'movie_card_constructor.dart';
+import 'movie_model_constructor.dart';
 
-class MovieCard extends Film with MixinLanguage {
+class MovieModel extends Film {
   final String country;
 
-  MovieCard({
+  const MovieModel({
     String id = "0",
     String title = "something_gonna_wrong",
     String picture = "",
@@ -11,6 +11,7 @@ class MovieCard extends Film with MixinLanguage {
     String releaseDate = "xxxx",
     String description = "Какое-то описание",
     String language = "Русский",
+    Lang speech = Lang.rus,
     this.country = "Россия",
   }) : super(
           id: id,
@@ -20,7 +21,6 @@ class MovieCard extends Film with MixinLanguage {
           releaseDate: releaseDate,
           description: description,
           language: language,
-        ) {
-    convertLang(language);
-  }
+          speech: speech,
+        );
 }

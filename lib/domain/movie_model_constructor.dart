@@ -1,3 +1,5 @@
+import 'package:hw/domain/content_model.dart';
+
 enum Lang { rus, spa, deu, eng, fra, jpn, kor, err }
 
 extension ConvertLangToStr on Lang {
@@ -31,6 +33,7 @@ abstract class Film {
   final String releaseDate;
   final String description;
   final String language;
+  final Lang speech;
 
   const Film({
     this.id = "0",
@@ -40,38 +43,32 @@ abstract class Film {
     this.releaseDate = "",
     this.description = "Какое-то описание",
     this.language = "Русский",
+    this.speech = Lang.rus,
   });
 }
 
-class MixinLanguage {
-  late Lang speech;
-
-  void convertLang(String classLanguage) {
+mixin MixinLanguage on MovieModel {
+  //Поля примешивающиеся миксином есть зло - они ломают константный конструктор
+  //В контексте текущего задания можно оботись без него, примешать метод - достаточно
+  //Как работает расширение полей через extension еще предстоит разобраться
+  Lang convertLang(String classLanguage) {
     switch (classLanguage) {
       case "Русский":
-        speech = Lang.rus;
-        break;
+        return Lang.rus;
       case "Испанский":
-        speech = Lang.spa;
-        break;
+        return Lang.spa;
       case "Немецкий":
-        speech = Lang.deu;
-        break;
+        return Lang.deu;
       case "Английский":
-        speech = Lang.eng;
-        break;
+        return Lang.eng;
       case "Французский":
-        speech = Lang.fra;
-        break;
+        return Lang.fra;
       case "Японский":
-        speech = Lang.jpn;
-        break;
+        return Lang.jpn;
       case "Корейский":
-        speech = Lang.kor;
-        break;
+        return Lang.kor;
       default:
-        speech = Lang.err;
-        break;
+        return Lang.err;
     }
   }
 }
