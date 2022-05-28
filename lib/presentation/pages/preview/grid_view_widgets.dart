@@ -133,80 +133,84 @@ class PolaroidFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     final int picker = Random().nextInt(3);
 
-    return Transform.rotate(
-      angle: _randomRotateAngle,
-      child: AspectRatio(
-        aspectRatio: 5 / 6,
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            final double widthBox = constraints.maxWidth;
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Transform.rotate(
+        angle: _randomRotateAngle,
+        child: AspectRatio(
+          aspectRatio: 5 / 6,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              final double widthBox = constraints.maxWidth;
 
-            const double factorBtmPadding = 0.055;
-            final double commonBottomPadding = widthBox * factorBtmPadding;
+              const double factorBtmPadding = 0.055;
+              final double commonBottomPadding = widthBox * factorBtmPadding;
 
-            const double factorSideImgPadding = 0.047;
-            final double sideImgPadding = factorSideImgPadding * widthBox;
+              const double factorSideImgPadding = 0.047;
+              final double sideImgPadding = factorSideImgPadding * widthBox;
 
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  '/info',
-                  arguments: InfoTransfer(link: link),
-                );
-              },
-              child: Stack(
-                children: [
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    foregroundDecoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(consts.polaroidsTitle[picker]),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 5 * commonBottomPadding,
-                          right: sideImgPadding,
-                          left: sideImgPadding,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/info',
+                    arguments: InfoTransfer(link: link),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      foregroundDecoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(consts.polaroidsTitle[picker]),
+                          fit: BoxFit.fill,
                         ),
-                        child: Container(
-                          width: double.maxFinite,
-                          height: double.maxFinite,
-                          color: Colors.black,
-                          child: (picture.isNotEmpty)
-                              ? Image.network(picture)
-                              : Image.asset(consts.pathNoImage),
-                        )),
-                  ),
-                  Column(
-                    children: [
-                      const Spacer(flex: 3),
-                      Expanded(
-                        child: Padding(
-                          ///Такие отступы были изначально заложены при рисовании рамки
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 3 * commonBottomPadding,
-                            vertical: commonBottomPadding,
+                      ),
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 4 * commonBottomPadding,
+                            right: sideImgPadding,
+                            left: sideImgPadding,
                           ),
-                          child: Center(
-                            child: AutoSizeText(
-                              title,
-                              textAlign: TextAlign.center,
-                              minFontSize: 8,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              group: titleSize,
+                          child: Container(
+                            width: double.maxFinite,
+                            height: double.maxFinite,
+                            color: Colors.black,
+                            child: (picture.isNotEmpty)
+                                ? Image.network(picture)
+                                : Image.asset(consts.pathNoImage),
+                          )),
+                    ),
+                    Column(
+                      children: [
+                        const Spacer(flex: 15),
+                        Expanded(
+                          flex: 4,
+                          child: Padding(
+                            ///Такие отступы были изначально заложены при рисовании рамки
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 3 * commonBottomPadding,
+                              vertical: commonBottomPadding,
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                title,
+                                textAlign: TextAlign.center,
+                                minFontSize: 8,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                group: titleSize,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

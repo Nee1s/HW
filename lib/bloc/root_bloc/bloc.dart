@@ -15,7 +15,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 
   ///Запросы ограничены, воткнул временно заплатку из констаного списка
   ///в готовом задании буду убирать как сейчас
-  ///static const TempLoaderData recipesRepository2 = TempLoaderData();
+  static const TempLoaderData recipesRepository2 = TempLoaderData();
 
   RootBloc(this.recipesRepository) : super(const RootState()) {
     on<SearchDataEvent>(_onSearchData);
@@ -37,7 +37,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   void _onPreloadData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(
       state.copyWith(
-        newData: recipesRepository.loadData(
+        newData: recipesRepository2.loadData(
           start: 0,
           count: 10,
         ),

@@ -62,12 +62,13 @@ class _PreviewPageState extends State<PreviewPage> {
                         bottom: 20.0,
                       ),
                       child: TextField(
+                        key: const ValueKey('filter_field'),
                         controller: textController,
                         maxLines: 1,
                         decoration: const InputDecoration(
                           labelText: consts.RecipeLocal.search,
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Colors.transparent,
                         ),
                         onChanged: _onSearchFieldTextChanged,
                       ),
@@ -75,13 +76,15 @@ class _PreviewPageState extends State<PreviewPage> {
                   ),
                   Expanded(
                     flex: 4,
-                    child: BlocBuilder<PreviewPageBloc, PreviewPState>(
-                      buildWhen: (oldS, newS) => oldS.tabIndex != newS.tabIndex,
-                      builder: (context, state) {
-                        if (state.tabIndex == 0) {
-                          return const Center(child: CatalogView());
-                        } else {
-                          if (state.tabIndex == 1) {
+                    child: RefreshIndicator(
+                      onRefresh: _onPullToRefresh,
+                      child: BlocBuilder<PreviewPageBloc, PreviewPState>(
+                        buildWhen: (oldS, newS) =>
+                            oldS.tabIndex != newS.tabIndex,
+                        builder: (context, state) {
+                          if (state.tabIndex == 0) {
+                            return const Center(child: CatalogView());
+                          } else if (state.tabIndex == 1) {
                             return const ScrollListView();
                           } else {
                             context.read<ErrorBloc>().add(
@@ -89,8 +92,8 @@ class _PreviewPageState extends State<PreviewPage> {
                                     place: 'tab index'));
                             return const SizedBox.shrink();
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -109,6 +112,10 @@ class _PreviewPageState extends State<PreviewPage> {
     DelayedAction.run(() {
       context.read<RootBloc>().add(SearchDataEvent(search: text));
     });
+  }
+
+  Future<void> _onPullToRefresh() async {
+    context.read<RootBloc>().add(const PreloadDataEvent());
   }
 }
 

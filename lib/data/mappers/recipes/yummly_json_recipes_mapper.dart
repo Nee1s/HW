@@ -81,7 +81,7 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
       for (var ingredientDTO in additions!.ingredients!) {
         if (alreadyExistsIngredients
                 .contains(ingredientDTO.ingredientName ?? '') ||
-            (ingredientDTO.ingredientName ?? '').isNotEmpty) {
+            (ingredientDTO.ingredientName ?? '').isEmpty) {
           continue;
         } else {
           alreadyExistsIngredients.add(ingredientDTO.ingredientName!);
@@ -106,7 +106,7 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
     if (additions?.nutrition?.nutritionList?.isNotEmpty ?? false) {
       tempList = <Nutrient>[];
       for (var nutrientDTO in additions!.nutrition!.nutritionList!) {
-        (nutrientDTO.quantity?.isNaN ?? false) &&
+        !(nutrientDTO.quantity?.isNaN ?? false) &&
                 (_createFromStr(nutrientDTO.codeNutrient ?? '') !=
                     FoodElement.err)
             ? tempList.add(

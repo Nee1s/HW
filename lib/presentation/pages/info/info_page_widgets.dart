@@ -58,10 +58,10 @@ class MainContentInfo extends StatelessWidget {
         final double widthBox = constrains.maxWidth;
         final double heightBox = constrains.maxHeight;
 
-        const double factorSidePaddingMainText = 0.076;
+        const double factorSidePaddingMainText = 0.09;
         final double sidePaddingMainText = widthBox * factorSidePaddingMainText;
 
-        const double factorVerticalPaddingMainText = 0.07;
+        const double factorVerticalPaddingMainText = 0.055;
         final double verticalPaddingMainText =
             heightBox * factorVerticalPaddingMainText;
 
@@ -102,7 +102,7 @@ class MainContentInfo extends StatelessWidget {
                         child: Column(
                           children: [
                             const Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: AutoSizeText(
                                 'Ingredients',
                                 style: ThemeFonts.generalNominativeStyle,
@@ -111,13 +111,16 @@ class MainContentInfo extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              flex: 7,
+                              flex: 22,
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
                                   return AutoSizeText(
                                     '${index + 1}. ${ingredients[index].titleInList}',
                                     maxLines: 2,
                                     style: ThemeFonts.generalDescriptiveStyle,
+                                    minFontSize: 5,
+                                    maxFontSize: 8,
+                                    textAlign: TextAlign.start,
                                     group: ingredientsGroup,
                                   );
                                 },
@@ -249,6 +252,7 @@ class MainContentInfo extends StatelessWidget {
                                         nutrition[index].viewInList,
                                         maxLines: 1,
                                         minFontSize: 6,
+                                        maxFontSize: 9,
                                         style:
                                             ThemeFonts.generalExpositiveStyle,
                                         group: nutrientsGroup,

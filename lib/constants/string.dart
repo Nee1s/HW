@@ -9,7 +9,7 @@ const String scaffoldBackgrnd = 'assets/backgrounds/scaffold_background.jpg';
 
 const String letterBackgrnd = 'assets/backgrounds/letter_list.png';
 const String letterRopeForeground = 'assets/backgrounds/rope_shadowed_list.png';
-const String letterSeaBackgrnd = 'assets/backgrounds/seal.png';
+const String letterSealBackgrnd = 'assets/backgrounds/seal.png';
 const String letterInfoListBackgrnd = 'assets/backgrounds/list_info_list.png';
 
 const String backgroundInfo = 'assets/backgrounds/info_add_background.png';

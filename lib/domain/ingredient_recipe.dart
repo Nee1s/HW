@@ -13,9 +13,9 @@ class Ingredient {
 
   String get titleInList {
     return name +
-        (clarification != null ? ' ($clarification)' : '') +
-        (quantity != null ? ' $_strQuantity' : '') +
-        (unit != null ? ' $unit' : '');
+        (clarification?.isNotEmpty ?? false ? ' ($clarification)' : '') +
+        (!(quantity?.isNaN ?? false) ? ' $_strQuantity' : '') +
+        (unit?.isNotEmpty ?? false ? ' $unit' : '');
   }
 
   String get _strQuantity {

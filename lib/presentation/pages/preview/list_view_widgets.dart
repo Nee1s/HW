@@ -8,6 +8,7 @@ import 'package:hw/components/common_widgets/widgets.dart';
 import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
+import 'package:hw/presentation/themes/text_styles.dart';
 
 class ScrollListView extends StatefulWidget {
   const ScrollListView({Key? key}) : super(key: key);
@@ -61,7 +62,8 @@ class _ScrollListViewState extends State<ScrollListView> {
                               model: loadingData.data!.yummlyRecipes![index],
                               titleSize: title,
                               descSize: desc,
-                              key: ValueKey(index.toString()),
+                              key: ValueKey(loadingData
+                                  .data!.yummlyRecipes![index].title),
                             ),
                           );
                         },
@@ -88,7 +90,7 @@ class _ScrollListViewState extends State<ScrollListView> {
 class Letter extends StatelessWidget {
   const Letter({
     required this.title,
-    required this.ratting,
+    required this.rating,
     required this.pictureLink,
     required this.link,
     required this.author,
@@ -100,7 +102,7 @@ class Letter extends StatelessWidget {
 
   final String title;
   final String pictureLink;
-  final double ratting;
+  final double rating;
   final String cookTime;
   final String author;
   final RecipeModel link;
@@ -116,7 +118,7 @@ class Letter extends StatelessWidget {
     return Letter(
       title: model.title,
       pictureLink: model.imageLink,
-      ratting: model.rating ?? 0.0,
+      rating: model.rating ?? 0.0,
       cookTime: model.totalTime ?? '',
       author: model.authorName ?? '',
       titleSize: titleSize,
@@ -126,102 +128,137 @@ class Letter extends StatelessWidget {
     );
   }
 
-  //Это колдунство возможно пригодится в будущем
-  //оно разбивает строку текста на две относительно равномерных
-  //строки в разрезе конкретного поля описания, часть описания
-  //на одной стороне страницы "книги", часть описания на другой странице
-  //Это не совсем полный вариант.
-  // Map<parts, String> divideDescription() {
-  //   final int? _dividePosition;
-  //   final int _idxHalfDescription =
-  //       description.indexOf(' ', (description.length / 2).floor());
-  //
-  //   final int calculate =
-  //       description.length > 120 ? description.indexOf(' ', 120) : -1;
-  //   _dividePosition = calculate > 0 && description.length - calculate > 40
-  //       ? calculate
-  //       : _idxHalfDescription > 0
-  //           ? _idxHalfDescription
-  //           : description.length;
-  //   try {
-  //     return {
-  //       parts.partOne: description.substring(0, _dividePosition),
-  //       parts.partTwo: description.substring(_dividePosition + 1),
-  //     };
-  //   } on RangeError {
-  //     return {
-  //       parts.partOne: description,
-  //       parts.partTwo: '',
-  //     };
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    //final Map<parts, String> _description = divideDescription();
+    return AspectRatio(
+      aspectRatio: 13 / 9,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double widthBox = constraints.maxWidth;
+          final double heightBox = constraints.maxHeight;
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final double widthBox = constraints.maxWidth;
+          const double factorPadContent = 0.09;
+          final double commonPadding = widthBox * factorPadContent;
 
-        const double factorPadContent = 0.09;
-        final double commonPadding = widthBox * factorPadContent;
+          const double factorWidthSeal = 0.173;
+          final double widthSeal = widthBox * factorWidthSeal;
 
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              '/info',
-              arguments: InfoTransfer(link: link),
-            );
-          },
-          child: Stack(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(consts.letterBackgrnd),
-                    fit: BoxFit.fill,
+          const double factorPosRightSeal = 0.365;
+          final double posRightSeal = factorPosRightSeal * widthBox;
+          const double factorPosBottomSeal = 0.5;
+          final double posBottomSeal = factorPosBottomSeal * heightBox;
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/info',
+                arguments: InfoTransfer(link: link),
+              );
+            },
+            child: Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(consts.letterBackgrnd),
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-                foregroundDecoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(consts.letterRopeForeground),
-                    fit: BoxFit.fill,
+                  foregroundDecoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(consts.letterRopeForeground),
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: commonPadding),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 8,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: commonPadding),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: commonPadding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 8,
                           child: SimplePolaroidFrame(
                             picture: pictureLink,
                             isRotateLeft: true,
                           ),
                         ),
-                      ),
-                      const Spacer(flex: 5),
-                      Expanded(
-                        flex: 10,
-                        child: ListLetterInfo(
-                          cookTime: cookTime,
-                          author: author,
-                          title: title,
-                          titleSize: titleSize,
-                          descSize: descSize,
+                        const Spacer(flex: 5),
+                        Expanded(
+                          flex: 10,
+                          child: ListLetterInfo(
+                            cookTime: cookTime,
+                            author: author,
+                            title: title,
+                            titleSize: titleSize,
+                            descSize: descSize,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              )
-            ],
-          ),
-        );
-      },
+                Positioned(
+                  bottom: posBottomSeal,
+                  right: posRightSeal,
+                  child: SizedBox(
+                    width: widthSeal,
+                    child: SealLetter(rating: rating),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class SealLetter extends StatelessWidget {
+  const SealLetter({
+    required this.rating,
+    Key? key,
+  }) : super(key: key);
+
+  final double rating;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 43 / 45,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final double heightBox = constraints.maxHeight;
+          const double factorLeftTop = 0.225;
+          const double factorRightBottom = 0.26;
+
+          final double leftTopPadding = factorLeftTop * heightBox;
+          final double rightBottomPadding = factorRightBottom * heightBox;
+
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(consts.letterSealBackgrnd),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: leftTopPadding,
+                top: leftTopPadding,
+                right: rightBottomPadding,
+                bottom: rightBottomPadding,
+              ),
+              child: AutoSizeText(
+                rating.toStringAsFixed(1),
+                maxLines: 1,
+                minFontSize: 2,
+                style: ThemeFonts.generalDeclarativeStyle,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -272,13 +309,15 @@ class ListLetterInfo extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 8,
-                      child: AutoSizeText(
-                        title,
-                        textAlign: TextAlign.center,
-                        maxLines: 6,
-                        minFontSize: 6,
-                        group: titleSize,
-                        overflow: TextOverflow.ellipsis,
+                      child: Center(
+                        child: AutoSizeText(
+                          title,
+                          textAlign: TextAlign.center,
+                          maxLines: 6,
+                          minFontSize: 6,
+                          group: titleSize,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                     Expanded(
