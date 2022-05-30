@@ -8,9 +8,9 @@ import 'package:hw/bloc/settings_bloc/settings_bloc.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_event.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_state.dart';
 import 'package:hw/components/locale/locals.dart';
-import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/data/repositories/recipes/yummly_recipes_repository.dart';
+import 'package:hw/domain/content_model.dart';
 import 'package:hw/presentation/pages/info/info_page.dart';
 import 'package:hw/presentation/pages/preview/preview_page.dart';
 import 'package:hw/presentation/pages/search/search_page.dart';
@@ -112,13 +112,13 @@ class _ApplicationState extends State<Application> {
             switch (settings.name) {
               case InfoPage.path:
                 {
-                  final InfoTransfer linkModel =
-                      settings.arguments as InfoTransfer;
+                  final RecipeModel linkModel =
+                      (settings.arguments as TransferDetail).getLinkModel;
 
                   return MaterialPageRoute(
                     builder: (context) {
                       return InfoPage.fromModel(
-                        model: linkModel.getLinkModel,
+                        model: linkModel,
                       );
                     },
                   );
@@ -138,4 +138,8 @@ class _ApplicationState extends State<Application> {
       },
     );
   }
+}
+
+abstract class TransferDetail {
+  RecipeModel get getLinkModel;
 }

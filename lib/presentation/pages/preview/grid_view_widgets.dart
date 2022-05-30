@@ -10,6 +10,10 @@ import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
 
+abstract class TransferModel {
+  RecipeModel get getLinkModel;
+}
+
 class CatalogView extends StatefulWidget {
   const CatalogView({
     required this.isDataCaching,
@@ -80,12 +84,6 @@ class _CatalogViewState extends State<CatalogView> {
                                     model: elementList,
                                     titleSize: titleSize,
                                     isDataCaching: widget.isDataCaching,
-                                    onTapToSaveReact:
-                                        reactionOnTapSave(elementList),
-                                    onTapToSaveGetAnswer: answerOnTapToSave(
-                                      linkModel: elementList,
-                                      searchInList: state.savedRecipes ?? [],
-                                    ),
                                     onTapWidget:
                                         reactionOnTapWidget(elementList),
                                     key: ValueKey(index.toString()),
@@ -126,21 +124,6 @@ class _CatalogViewState extends State<CatalogView> {
           arguments: InfoTransfer(link: link),
         );
   }
-
-  VoidCallback reactionOnTapSave(RecipeModel linkModel) {
-    return () => context
-        .read<RootBloc>()
-        .add(SavingRecipeIsClickedEvent(clickedRecipe: linkModel));
-  }
-
-  bool Function() answerOnTapToSave(
-      {required RecipeModel linkModel,
-      required List<RecipeModel> searchInList}) {
-    return () =>
-        searchInList.firstWhereOrNull(
-            (recipe) => recipe.reviewId == linkModel.reviewId) !=
-        null;
-  }
 }
 
 enum Mode { saved, net }
@@ -150,8 +133,7 @@ class PolaroidFrame extends StatelessWidget {
       {required this.title,
       required this.picture,
       required this.onTapToOpenDetail,
-      required this.onTapToSaveGetAnswer,
-      required this.onTapToSaveReact,
+      required this.linkModel,
       required this.titleSize,
       required this.isDataCaching,
       Key? key})
@@ -160,16 +142,13 @@ class PolaroidFrame extends StatelessWidget {
   final String title;
   final String picture;
   final VoidCallback onTapToOpenDetail;
-  final VoidCallback onTapToSaveReact;
-  final bool Function() onTapToSaveGetAnswer;
+  final TransferModel linkModel;
   final AutoSizeGroup titleSize;
   final bool isDataCaching;
 
   factory PolaroidFrame.fromModel({
     required RecipeModel model,
     required AutoSizeGroup titleSize,
-    required bool Function() onTapToSaveGetAnswer,
-    required VoidCallback onTapToSaveReact,
     required VoidCallback onTapWidget,
     required bool isDataCaching,
     Key? key,
@@ -179,8 +158,7 @@ class PolaroidFrame extends StatelessWidget {
       picture: model.imageLink,
       titleSize: titleSize,
       onTapToOpenDetail: onTapWidget,
-      onTapToSaveGetAnswer: onTapToSaveGetAnswer,
-      onTapToSaveReact: onTapToSaveReact,
+      linkModel: InfoTransfer(link: model),
       isDataCaching: isDataCaching,
       key: key,
     );
@@ -266,8 +244,7 @@ class PolaroidFrame extends StatelessWidget {
                           child: BottomRowPolaroid(
                             title: title,
                             size: titleSize,
-                            answer: onTapToSaveGetAnswer,
-                            click: onTapToSaveReact,
+                            linkModel: linkModel,
                           ),
                         ),
                       ),
@@ -287,15 +264,13 @@ class BottomRowPolaroid extends StatefulWidget {
   const BottomRowPolaroid({
     required this.title,
     required this.size,
-    required this.answer,
-    required this.click,
+    required this.linkModel,
     Key? key,
   }) : super(key: key);
 
   final String title;
   final AutoSizeGroup size;
-  final VoidCallback click;
-  final bool Function() answer;
+  final TransferModel linkModel;
 
   @override
   State<BottomRowPolaroid> createState() => _BottomRowPolaroidState();
@@ -304,39 +279,81 @@ class BottomRowPolaroid extends StatefulWidget {
 class _BottomRowPolaroidState extends State<BottomRowPolaroid> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RootBloc, RootState>(
-      buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
-      builder: (context, state) => GestureDetector(
-        onTap: widget.click,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 3,
-              child: widget.answer.call()
-                  ? const Icon(
-                      Icons.bookmark,
-                      color: Colors.blueGrey,
-                    )
-                  : const Icon(
-                      Icons.bookmark_border_outlined,
-                      color: Colors.pinkAccent,
-                    ),
+    // return BlocBuilder<RootBloc, RootState>(
+    //     buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
+    //     builder: (context, state) {
+    //
+    //     });
+
+    return GestureDetector(
+      onTap: () {
+        context.read<RootBloc>().add(SavingRecipeIsClickedEvent(
+            clickedRecipe: widget.linkModel.getLinkModel));
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: BlocBuilder<RootBloc, RootState>(
+              buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
+              builder: (context, state) {
+                final bool isSaved = state.savedRecipes?.firstWhereOrNull(
+                        (recipe) =>
+                            recipe.reviewId ==
+                            widget.linkModel.getLinkModel.reviewId) !=
+                    null;
+
+                return AnimatedCrossFade(
+                  firstChild: Image.asset(
+                    consts.sealFavorite,
+                    fit: BoxFit.fitHeight,
+                  ),
+                  secondChild: Image.asset(
+                    consts.cloudNotFavorite,
+                    fit: BoxFit.fitHeight,
+                  ),
+                  crossFadeState: isSaved
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 850),
+                );
+              },
             ),
-            Expanded(
-              flex: 14,
-              child: AutoSizeText(
-                widget.title,
-                textAlign: TextAlign.center,
-                minFontSize: 8,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                group: widget.size,
-              ),
+          ),
+          Expanded(
+            flex: 7,
+            child: AutoSizeText(
+              widget.title,
+              textAlign: TextAlign.center,
+              minFontSize: 8,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              group: widget.size,
             ),
-            const Spacer(flex: 3),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 2,
+            child: BlocBuilder<RootBloc, RootState>(
+              buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
+              builder: (context, state) {
+                final bool isSaved = state.savedRecipes?.firstWhereOrNull(
+                        (recipe) =>
+                            recipe.reviewId ==
+                            widget.linkModel.getLinkModel.reviewId) !=
+                    null;
+                return AnimatedOpacity(
+                  opacity: isSaved ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 850),
+                  child: Image.asset(
+                    consts.sealFavorite,
+                    fit: BoxFit.fitHeight,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

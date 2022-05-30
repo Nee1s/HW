@@ -131,7 +131,7 @@ class Letter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 13 / 9,
+      aspectRatio: 25 / 17,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final double widthBox = constraints.maxWidth;

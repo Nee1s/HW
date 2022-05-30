@@ -1,13 +1,14 @@
 import 'package:hw/domain/content_model.dart';
+import 'package:hw/main.dart';
+import 'package:hw/presentation/pages/preview/grid_view_widgets.dart';
 
-///для пущей красоты можно было бы запилить абстракты
-///и от них здесь имплементироваться, но поскольку обертка
-///всего одна заморчаиваться не стал
-
-class InfoTransfer {
+///Все под одну гребенку получается... но впринципипе,
+///относительно для текущего варианта...
+class InfoTransfer implements TransferModel, TransferDetail {
   const InfoTransfer({required this.link});
 
   final Object link;
 
+  @override
   RecipeModel get getLinkModel => link as RecipeModel;
 }

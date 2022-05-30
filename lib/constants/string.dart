@@ -16,4 +16,7 @@ const String paperInfoBackgrnd = 'assets/backgrounds/info_text_background.png';
 const String polaroidInfoBackgrnd =
     'assets/backgrounds/polaroid_shadowed_list.png';
 
+const String sealFavorite = 'assets/backgrounds/saved_seals.png';
+const String cloudNotFavorite = 'assets/backgrounds/cloud_not_saved.png';
+
 const String localeSettingPref = 'app-locale';
