@@ -14,26 +14,26 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   //Потому что Scaffold берет размеры AppBar из переменной/геттера preferredSize
   @override
   Size get preferredSize {
-    const double _ratioPicture = 0.133;
-    const double _maxAcceptableFactor = 0.54;
+    const double ratioPicture = 0.133;
+    const double maxAcceptableFactor = 0.54;
 
-    final double _height =
+    final double height =
         MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height;
-    final double _width =
+    final double width =
         MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
 
-    final double _revertRatioSides = 2 - _width / _height;
+    final double revertRatioSides = 2 - width / height;
 
     late final double appBarHeight;
     appBarHeight =
         MediaQueryData.fromWindow(WidgetsBinding.instance.window).orientation ==
                 Orientation.portrait
-            ? _width * _ratioPicture
-            : _width *
-                _ratioPicture *
-                (_revertRatioSides > _maxAcceptableFactor
-                    ? _revertRatioSides
-                    : _maxAcceptableFactor);
+            ? width * ratioPicture
+            : width *
+                ratioPicture *
+                (revertRatioSides > maxAcceptableFactor
+                    ? revertRatioSides
+                    : maxAcceptableFactor);
     return Size.fromHeight(appBarHeight);
   }
 
