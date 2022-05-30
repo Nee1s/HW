@@ -175,12 +175,12 @@ class RecipeAdditionDataDetailDTO {
   final List<RecipeDetailImageLinkDTO>? listImageLinks;
 
   @JsonKey(name: 'globalId')
-  final String? reviewId;
+  final String reviewId;
 
   const RecipeAdditionDataDetailDTO({
     required this.listImageLinks,
     this.totalTime,
-    this.reviewId,
+    required this.reviewId,
   });
 
   factory RecipeAdditionDataDetailDTO.fromJson(Map<String, dynamic> json) =>

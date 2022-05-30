@@ -13,7 +13,7 @@ void showErrorDialog({
     showErrorDialog(
       context: _context,
       error:
-          '${errorType ?? RecipeLocal.unknownErrorType} - ${error ?? RecipeLocal.unknown}',
+          '${errorType ?? RecipeLocal.unknownErrorType} - ${error ?? RecipeLocal.unknownError}',
     );
   }
 }

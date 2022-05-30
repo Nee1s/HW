@@ -29,7 +29,7 @@ extension _RecipeDataDTOToDomain on RecipeDataDTO {
           additions?.reviewRatting?.rating?.toStringAsFixed(1) ?? '0.0'),
       description: additions?.description?.textDesc,
       totalTime: additions?.details?.totalTime,
-      reviewId: additions?.details?.reviewId,
+      reviewId: additions?.details?.reviewId ?? '',
       authorLink: general?.source?.authorLink,
       authorName: general?.source?.authorName,
       sourceRecipeLink: general?.source?.sourceRecipeLink,

@@ -20,12 +20,12 @@ class ErrorBloc extends Bloc<ErrorEvent, ErrorState> {
 
   void _onNoData(NoDataEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.dataError, error: RecipeLocal.noDataError);
+        errorType: RecipeLocal.dataErrorType, error: RecipeLocal.noDataError);
   }
 
   void _onEmptyData(EmptyDataEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-      errorType: RecipeLocal.dataError,
+      errorType: RecipeLocal.dataErrorType,
       error: RecipeLocal.emptyDataError,
     );
   }
@@ -33,14 +33,14 @@ class ErrorBloc extends Bloc<ErrorEvent, ErrorState> {
   void _onLoadingDataError(
       LoadingDataErrorEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.loadingDataError,
+        errorType: RecipeLocal.loadingDataErrorType,
         error: '${event.code}: ${event.message}');
   }
 
   void _onUnbelievableError(
       UnbelievableErrorEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.unbelievable,
+        errorType: RecipeLocal.unbelievableErrorType,
         error: RecipeLocal.unbelievableError +
             (event.place?.isNotEmpty ?? false ? '(${event.place})' : ''));
   }

@@ -34,7 +34,6 @@ class _PreviewPageState extends State<PreviewPage> {
     const double factorCommonPadding = 0.02;
     final double paddingCommon = heightScreen * factorCommonPadding;
 
-    //widget PageView тобишь вся страница с двумя представлениями списка
     return BlocProvider<PreviewPageBloc>(
       lazy: false,
       create: (_) => PreviewPageBloc(),

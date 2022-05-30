@@ -45,7 +45,7 @@ class MainContentInfo extends StatelessWidget {
       tags: model.tags,
       totalTime: model.totalTime ?? '',
       rating: model.rating ?? 0.0,
-      reviewId: model.reviewId ?? '',
+      reviewId: model.reviewId,
       ingredients: model.ingredients,
       nutrition: model.nutrition,
     );

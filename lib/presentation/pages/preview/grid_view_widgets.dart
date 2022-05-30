@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/bloc/error_bloc/error_bloc.dart';
 import 'package:hw/bloc/root_bloc/bloc.dart';
+import 'package:hw/components/common_widgets/body_page_widgets.dart';
 import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
@@ -149,65 +150,85 @@ class PolaroidFrame extends StatelessWidget {
               const double factorSideImgPadding = 0.047;
               final double sideImgPadding = factorSideImgPadding * widthBox;
 
-              return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    '/info',
-                    arguments: InfoTransfer(link: link),
-                  );
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      foregroundDecoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(consts.polaroidsTitle[picker]),
-                          fit: BoxFit.fill,
+              return Stack(
+                children: [
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    foregroundDecoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(consts.polaroidsTitle[picker]),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 4 * commonBottomPadding,
+                        right: sideImgPadding,
+                        left: sideImgPadding,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            '/info',
+                            arguments: InfoTransfer(link: link),
+                          );
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: double.maxFinite,
+                          color: Colors.black,
+                          child: (picture.isNotEmpty)
+                              ? Image.network(picture)
+                              : Image.asset(consts.pathNoImage),
                         ),
                       ),
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 4 * commonBottomPadding,
-                            right: sideImgPadding,
-                            left: sideImgPadding,
-                          ),
-                          child: Container(
-                            width: double.maxFinite,
-                            height: double.maxFinite,
-                            color: Colors.black,
-                            child: (picture.isNotEmpty)
-                                ? Image.network(picture)
-                                : Image.asset(consts.pathNoImage),
-                          )),
                     ),
-                    Column(
-                      children: [
-                        const Spacer(flex: 15),
-                        Expanded(
-                          flex: 4,
-                          child: Padding(
-                            ///Такие отступы были изначально заложены при рисовании рамки
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 3 * commonBottomPadding,
-                              vertical: commonBottomPadding,
-                            ),
-                            child: Center(
-                              child: AutoSizeText(
-                                title,
-                                textAlign: TextAlign.center,
-                                minFontSize: 8,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                group: titleSize,
-                              ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(flex: 15), //15
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          ///Такие отступы были изначально заложены при рисовании рамки
+                          padding: EdgeInsets.symmetric(
+                            //horizontal: 3 * commonBottomPadding,
+                            vertical: commonBottomPadding,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              context.read<RootBloc>().add(
+                                  SavingRecipeIsClickedEvent(
+                                      clickedRecipe: link));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: AddToBook(linkModel: link),
+                                ),
+                                Expanded(
+                                  flex: 14,
+                                  child: AutoSizeText(
+                                    title,
+                                    textAlign: TextAlign.center,
+                                    minFontSize: 8,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    group: titleSize,
+                                  ),
+                                ),
+                                const Spacer(flex: 3),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
           ),

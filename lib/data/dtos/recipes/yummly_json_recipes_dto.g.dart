@@ -145,7 +145,7 @@ RecipeAdditionDataDetailDTO _$RecipeAdditionDataDetailDTOFromJson(
               .toList() ??
           [],
       totalTime: json['totalTime'] as String?,
-      reviewId: json['globalId'] as String?,
+      reviewId: json['globalId'] as String,
     );
 
 Map<String, dynamic> _$RecipeAdditionDataDetailDTOToJson(

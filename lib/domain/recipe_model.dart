@@ -16,17 +16,17 @@ class RecipeModel {
   late final List<SearchTag> _tags;
   final String? totalTime;
   final double? rating;
-  final String? reviewId;
+  final String reviewId;
   late final List<Ingredient> _ingredients;
   late final List<Nutrient> _nutrition;
 
   RecipeModel({
     required this.title,
     required this.imageLink,
+    required this.reviewId,
     this.rating,
     this.description,
     this.totalTime,
-    this.reviewId,
     this.authorLink,
     this.authorName,
     this.sourceRecipeLink,

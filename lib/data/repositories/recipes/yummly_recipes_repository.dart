@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:hw/constants/constants.dart' as consts;
+import 'package:hw/data/db/database.dart';
+import 'package:hw/data/db/tables_mapper/recipes_db_mapper.dart';
 import 'package:hw/data/dtos/recipes/yummly_json_recipes_dto.dart';
 import 'package:hw/data/mappers/recipes/yummly_json_recipes_mapper.dart';
 import 'package:hw/domain/content_model.dart';
@@ -17,9 +22,11 @@ class RecipesRepository {
         ),
         ErrorInterceptor(onErrorHandler),
       ]);
+    _db = Database();
   }
 
   late final Dio _dio;
+  late final Database _db;
   final Function(String, String) onErrorHandler;
 
   Future<RecipesContentModel?> loadData({
@@ -35,8 +42,7 @@ class RecipesRepository {
         'tag': searchTags,
       },
       options: Options(
-        method: 'GET',
-        //receiveTimeout: 7000,
+        receiveTimeout: 7000,
         headers: {
           consts.prefixHost: consts.hostUrl,
           consts.prefixApiKey: consts.apiKey,
@@ -77,7 +83,6 @@ class RecipesRepository {
         // 'allowedAttribute' : tags,
       },
       options: Options(
-        method: 'GET',
         receiveTimeout: 7000,
         headers: {
           consts.prefixHost: consts.hostUrl,
@@ -91,5 +96,30 @@ class RecipesRepository {
     final RecipesContentModel model = dto.toDomain();
 
     return model;
+  }
+
+  Future<void> insertRecipeToDB(RecipeModel recipe) async {
+    await _db.into(_db.recipesTable).insert(
+          recipe.toDatabase(),
+          mode: InsertMode.insertOrReplace,
+        );
+  }
+
+  Future<void> deleteRecipeFromDB(String id) async {
+    await (_db.delete(_db.recipesTable)
+          ..where((recipe) => recipe.globalId.equals(id)))
+        .go();
+  }
+
+  Future<List<RecipeModel>> get getAllRecipesFromDB async {
+    return await (_db
+        .select(_db.recipesTable)
+        .map((recipeData) => recipeData.toDomain())).get();
+  }
+
+  Stream<List<RecipeModel>> streamAllRecipes() {
+    return (_db
+        .select(_db.recipesTable)
+        .map((recipeData) => recipeData.toDomain())).watch();
   }
 }

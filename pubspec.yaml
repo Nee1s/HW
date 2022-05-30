@@ -42,6 +42,10 @@ dependencies:
   json_serializable: ^6.2.0
   dio: ^4.0.6
   pretty_dio_logger: ^1.2.0-beta-1
+  drift: ^1.6.0
+  path_provider: ^2.0.10
+  http: ^0.13.4
+  sqlite3_flutter_libs: ^0.5.7
 
 
 
@@ -50,6 +54,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: 2.1.11
   json_serializable: 6.2.0
+  drift_dev: 1.6.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hw/data/repositories/recipes/yummly_recipes_repository.dart';
 import 'package:hw/domain/content_model.dart';
@@ -11,21 +12,29 @@ export 'event.dart';
 export 'state.dart';
 
 class RootBloc extends Bloc<RootEvent, RootState> {
-  final RecipesRepository recipesRepository;
+  final RecipesRepository _recipesRepository;
 
   ///Запросы ограничены, воткнул временно заплатку из констаного списка
-  ///в готовом задании буду убирать как сейчас
-  static const TempLoaderData recipesRepository2 = TempLoaderData();
+  ///в готовом задании буду убирать как сейчас(не закоментировано - значит забыл)
+  static const TempLoaderData _recipesRepository2 = TempLoaderData();
 
-  RootBloc(this.recipesRepository) : super(const RootState()) {
+  RootBloc(this._recipesRepository) : super(const RootState()) {
     on<SearchDataEvent>(_onSearchData);
     on<PreloadDataEvent>(_onPreloadData);
+    on<DBRecipesIsChangedEvent>(_onChangeDBRecipes);
+    on<SavingRecipeIsClickedEvent>(_onChangeSavedRecipeByUser);
+    _recipesRepository.streamAllRecipes().listen(
+      (data) {
+        add(DBRecipesIsChangedEvent(newList: data));
+      },
+    );
   }
 
   void _onSearchData(SearchDataEvent event, Emitter<RootState> emit) {
     emit(
       state.copyWith(
-        newData: recipesRepository.searchData(
+        newData: _recipesRepository2.loadData(
+          //newData: recipesRepository.searchData(
           start: 0,
           count: 10,
           search: event.search ?? '',
@@ -37,12 +46,38 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   void _onPreloadData(PreloadDataEvent event, Emitter<RootState> emit) {
     emit(
       state.copyWith(
-        newData: recipesRepository2.loadData(
+        newData: _recipesRepository2.loadData(
           start: 0,
           count: 10,
         ),
       ),
     );
+  }
+
+  void _onChangeDBRecipes(
+      DBRecipesIsChangedEvent event, Emitter<RootState> emit) {
+    emit(
+      state.copyWith(
+        newSavedList: event.newList,
+      ),
+    );
+  }
+
+  void _onChangeSavedRecipeByUser(
+      SavingRecipeIsClickedEvent event, Emitter<RootState> emit) async {
+    final RecipeModel? involvedRecipe = event.clickedRecipe;
+    final List<RecipeModel>? receivedList = state.savedRecipes;
+
+    RecipeModel? checkIsInList = (receivedList?.isNotEmpty ?? false)
+        ? receivedList!.firstWhereOrNull(
+            (recipe) => recipe.reviewId == involvedRecipe?.reviewId)
+        : null;
+
+    if (checkIsInList != null) {
+      await _recipesRepository.deleteRecipeFromDB(checkIsInList.reviewId);
+    } else if (involvedRecipe != null) {
+      await _recipesRepository.insertRecipeToDB(involvedRecipe);
+    }
   }
 }
 
@@ -50,7 +85,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 class TempLoaderData {
   const TempLoaderData();
 
-  Future<RecipesContentModel> loadData({int? start, int? count}) {
+  Future<RecipesContentModel> loadData(
+      {int? start, int? count, String? search}) {
     RecipesContentModel temp = RecipesContentModel(
       yummlyRecipes: [
         RecipeModel(

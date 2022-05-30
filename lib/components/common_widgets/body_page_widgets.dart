@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hw/bloc/root_bloc/bloc.dart';
 import 'package:hw/constants/constants.dart' as consts;
+import 'package:hw/domain/content_model.dart';
 
 class SimplePolaroidFrame extends StatelessWidget {
   final String picture;
@@ -97,16 +99,34 @@ class SimplePolaroidFrame extends StatelessWidget {
   }
 }
 
-class TabletFavorite extends StatefulWidget {
-  const TabletFavorite({Key? key}) : super(key: key);
+class AddToBook extends StatefulWidget {
+  const AddToBook({required this.linkModel, Key? key}) : super(key: key);
+
+  final RecipeModel linkModel;
 
   @override
-  State<TabletFavorite> createState() => _TabletFavoriteState();
+  State<AddToBook> createState() => _AddToBookState();
 }
 
-class _TabletFavoriteState extends State<TabletFavorite> {
+class _AddToBookState extends State<AddToBook> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocBuilder<RootBloc, RootState>(
+      buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
+      builder: (context, state) {
+        final bool isSaved =
+            state.savedRecipes?.contains(widget.linkModel) ?? false;
+
+        return isSaved
+            ? const Icon(
+                Icons.bookmark,
+                color: Colors.blueGrey,
+              )
+            : const Icon(
+                Icons.bookmark_border_outlined,
+                color: Colors.pinkAccent,
+              );
+      },
+    );
   }
 }

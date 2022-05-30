@@ -9,7 +9,7 @@ class ErrorInterceptor extends Interceptor {
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     onErrorHandler(
-      err.response?.statusCode?.toString() ?? RecipeLocal.unknown,
+      err.response?.statusCode?.toString() ?? RecipeLocal.unknownError,
       err.message,
     );
     handler.next(err);
