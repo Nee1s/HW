@@ -19,8 +19,8 @@ const FlexSchemeColor _darkScheme = FlexSchemeColor(
 );
 
 const FlexSchemeColor _lightScheme = FlexSchemeColor(
-  primary: Color(0xffd2691e),
-  primaryContainer: Color(0xffcc5500),
+  primary: Color(0xa04761dc),
+  primaryContainer: Color(0xa05442b8),
   secondary: Color(0xffff8800),
   secondaryContainer: Color(0xffff4f00),
   tertiary: Color(0xffc6c3b5),

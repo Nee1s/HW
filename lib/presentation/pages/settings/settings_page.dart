@@ -19,7 +19,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   void didChangeDependencies() {
-    context.read<RootBloc>().add(const PreloadDataEvent());
+    context
+        .read<SettingsBloc>()
+        .add(const LoadSettingEvent(nameSetting: consts.localeSettingPref));
     super.didChangeDependencies();
   }
 
@@ -44,7 +46,11 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           child: Padding(
             padding: EdgeInsets.all(paddingCommon),
-            child: const SwitchLocalePanel(),
+            child: Column(
+              children: const [
+                Expanded(child: SwitchLocalePanel()),
+              ],
+            ),
           ),
         ),
       ),

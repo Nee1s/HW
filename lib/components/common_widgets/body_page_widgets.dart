@@ -98,22 +98,18 @@ class SimplePolaroidFrame extends StatelessWidget {
   }
 }
 
-class Bookmark extends StatefulWidget {
+class Bookmark extends StatelessWidget {
   const Bookmark({required this.checkSaves, Key? key}) : super(key: key);
 
   final bool Function() checkSaves;
 
   @override
-  State<Bookmark> createState() => _BookmarkState();
-}
-
-class _BookmarkState extends State<Bookmark> {
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<RootBloc, RootState>(
       //buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
       builder: (context, state) {
-        return widget.checkSaves.call()
+        final bool isSaved = checkSaves.call();
+        return isSaved
             ? const Icon(
                 Icons.bookmark,
                 color: Colors.blueGrey,

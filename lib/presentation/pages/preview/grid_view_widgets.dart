@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/bloc/error_bloc/error_bloc.dart';
 import 'package:hw/bloc/root_bloc/bloc.dart';
-import 'package:hw/components/common_widgets/body_page_widgets.dart';
 import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
@@ -98,7 +97,10 @@ class _CatalogViewState extends State<CatalogView> {
                                 Orientation.portrait
                             ? Axis.vertical
                             : Axis.horizontal,
-                        itemCount: loadingData.data?.yummlyRecipes?.length ?? 0,
+                        itemCount: (widget.typeList == Mode.saved
+                                ? state.savedRecipes?.length
+                                : loadingData.data?.yummlyRecipes?.length) ??
+                            0,
                         shrinkWrap: true,
                       );
                     } else {
@@ -261,30 +263,11 @@ class PolaroidFrame extends StatelessWidget {
                             //horizontal: 3 * commonBottomPadding,
                             vertical: commonBottomPadding,
                           ),
-                          child: InkWell(
-                            onTap: onTapToSaveReact,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Bookmark(
-                                      checkSaves: onTapToSaveGetAnswer),
-                                ),
-                                Expanded(
-                                  flex: 14,
-                                  child: AutoSizeText(
-                                    title,
-                                    textAlign: TextAlign.center,
-                                    minFontSize: 8,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    group: titleSize,
-                                  ),
-                                ),
-                                const Spacer(flex: 3),
-                              ],
-                            ),
+                          child: BottomRowPolaroid(
+                            title: title,
+                            size: titleSize,
+                            answer: onTapToSaveGetAnswer,
+                            click: onTapToSaveReact,
                           ),
                         ),
                       ),
@@ -294,6 +277,65 @@ class PolaroidFrame extends StatelessWidget {
               );
             },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class BottomRowPolaroid extends StatefulWidget {
+  const BottomRowPolaroid({
+    required this.title,
+    required this.size,
+    required this.answer,
+    required this.click,
+    Key? key,
+  }) : super(key: key);
+
+  final String title;
+  final AutoSizeGroup size;
+  final VoidCallback click;
+  final bool Function() answer;
+
+  @override
+  State<BottomRowPolaroid> createState() => _BottomRowPolaroidState();
+}
+
+class _BottomRowPolaroidState extends State<BottomRowPolaroid> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RootBloc, RootState>(
+      buildWhen: (oldS, newS) => oldS.savedRecipes != newS.savedRecipes,
+      builder: (context, state) => GestureDetector(
+        onTap: widget.click,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 3,
+              child: widget.answer.call()
+                  ? const Icon(
+                      Icons.bookmark,
+                      color: Colors.blueGrey,
+                    )
+                  : const Icon(
+                      Icons.bookmark_border_outlined,
+                      color: Colors.pinkAccent,
+                    ),
+            ),
+            Expanded(
+              flex: 14,
+              child: AutoSizeText(
+                widget.title,
+                textAlign: TextAlign.center,
+                minFontSize: 8,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                group: widget.size,
+              ),
+            ),
+            const Spacer(flex: 3),
+          ],
         ),
       ),
     );

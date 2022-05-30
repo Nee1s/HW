@@ -159,9 +159,13 @@ class BottomNavBar extends StatelessWidget {
                 icon: Icon(Icons.list),
                 label: 'List',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                label: 'Noted',
+              ),
             ],
-            selectedItemColor: const Color(0xffff8800),
-            unselectedItemColor: const Color(0xffdd9475),
+            selectedItemColor: const Color(0xa04761dc),
+            unselectedItemColor: Colors.black54,
             backgroundColor: Colors.transparent,
             currentIndex: state.tabIndex!,
             onTap: (newIndex) {
