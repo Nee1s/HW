@@ -25,15 +25,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     final double _revertRatioSides = 2 - _width / _height;
 
     late final double appBarHeight;
-    appBarHeight = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-                .orientation ==
-            Orientation.portrait
-        ? _width * _ratioPicture
-        : _width *
-            _ratioPicture *
-            (_revertRatioSides > _maxAcceptableFactor
-                ? _revertRatioSides
-                : _maxAcceptableFactor);
+    appBarHeight =
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window).orientation ==
+                Orientation.portrait
+            ? _width * _ratioPicture
+            : _width *
+                _ratioPicture *
+                (_revertRatioSides > _maxAcceptableFactor
+                    ? _revertRatioSides
+                    : _maxAcceptableFactor);
     return Size.fromHeight(appBarHeight);
   }
 
