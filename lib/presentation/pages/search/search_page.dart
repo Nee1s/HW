@@ -11,6 +11,8 @@ import 'search_page_widgets.dart';
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
+  static const path = '/search';
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }

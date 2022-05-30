@@ -12,6 +12,8 @@ import 'list_view_widgets.dart';
 class PreviewPage extends StatefulWidget {
   static final GlobalKey<State<StatefulWidget>> globalKey = GlobalKey();
 
+  static const path = '/';
+
   const PreviewPage({Key? key}) : super(key: key);
 
   @override
@@ -81,15 +83,29 @@ class _PreviewPageState extends State<PreviewPage> {
                         buildWhen: (oldS, newS) =>
                             oldS.tabIndex != newS.tabIndex,
                         builder: (context, state) {
-                          if (state.tabIndex == 0) {
-                            return const Center(child: CatalogView());
-                          } else if (state.tabIndex == 1) {
-                            return const ScrollListView();
-                          } else {
-                            context.read<ErrorBloc>().add(
-                                const UnbelievableErrorEvent(
-                                    place: 'tab index'));
-                            return const SizedBox.shrink();
+                          switch (state.tabIndex) {
+                            case 0:
+                              return const Center(
+                                  child: CatalogView(
+                                      typeList: Mode.net,
+                                      isDataCaching: false));
+
+                            case 1:
+                              return const Center(child: ScrollListView());
+
+                            case 2:
+                              return const Center(
+                                  child: CatalogView(
+                                      typeList: Mode.saved,
+                                      isDataCaching: true));
+
+                            default:
+                              {
+                                context.read<ErrorBloc>().add(
+                                    const UnbelievableErrorEvent(
+                                        place: 'tab index'));
+                                return const SizedBox.shrink();
+                              }
                           }
                         },
                       ),
@@ -127,14 +143,11 @@ class BottomNavBar extends StatelessWidget {
       buildWhen: (oldS, newS) => oldS.tabIndex != newS.tabIndex,
       builder: (context, state) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(
-                  state.tabIndex! == 0
-                      ? consts.btmNavBarFirstTab
-                      : consts.btmNavBarSecondTab,
-                ),
-                fit: BoxFit.fill),
+              image: AssetImage(consts.btmNavBarBck),
+              fit: BoxFit.fill,
+            ),
           ),
           child: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[

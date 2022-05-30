@@ -1,3 +1,5 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
 enum parts { partOne, partTwo }
 
 const List<String> polaroidsTitle = [
@@ -30,4 +32,9 @@ class RecipeLocal {
   static const String dataBaseUsageOrderError =
       'Неправаильный порядок обращения';
   static const String unknownError = 'Неизвестная ошибка';
+}
+
+class AppPictures {
+  static CacheManager pictureCache =
+      CacheManager(Config('recipeImg', stalePeriod: const Duration(days: 7)));
 }

@@ -18,14 +18,14 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     const double _maxAcceptableFactor = 0.54;
 
     final double _height =
-        MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.height;
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height;
     final double _width =
-        MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.width;
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
 
     final double _revertRatioSides = 2 - _width / _height;
 
     late final double appBarHeight;
-    appBarHeight = MediaQueryData.fromWindow(WidgetsBinding.instance!.window)
+    appBarHeight = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
                 .orientation ==
             Orientation.portrait
         ? _width * _ratioPicture
@@ -57,6 +57,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
         opacity: 0.85,
         size: 12.0,
       ),
+      actions: [
+        IconButton(
+          onPressed: () => Navigator.of(context).pushNamed('/settings'),
+          icon: Icon(
+            Icons.settings,
+            color: Colors.white.withOpacity(0.5),
+          ),
+        ),
+      ],
     );
   }
 }

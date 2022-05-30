@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hw/bloc/error_bloc/error_bloc.dart';
 import 'package:hw/bloc/root_bloc/bloc.dart';
@@ -10,7 +12,14 @@ import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/domain/content_model.dart';
 
 class CatalogView extends StatefulWidget {
-  const CatalogView({Key? key}) : super(key: key);
+  const CatalogView({
+    required this.isDataCaching,
+    required this.typeList,
+    Key? key,
+  }) : super(key: key);
+
+  final bool isDataCaching;
+  final Mode typeList;
 
   @override
   State<CatalogView> createState() => _CatalogViewState();
@@ -55,17 +64,35 @@ class _CatalogViewState extends State<CatalogView> {
                           crossAxisCount: 2,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: padVerticalElement,
-                              horizontal: padHorizontalElement,
-                            ),
-                            child: PolaroidFrame.fromModel(
-                              model: loadingData.data!.yummlyRecipes![index],
-                              titleSize: titleSize,
-                              key: ValueKey(index.toString()),
-                            ),
-                          );
+                          //по хорошему выносить в абстракт и составлять di надо, но время
+                          //да и в целом везде затычки появились и код стал вцелом с душком
+                          final RecipeModel? elementList =
+                              widget.typeList == Mode.net
+                                  ? (loadingData.data!.yummlyRecipes?[index])
+                                  : state.savedRecipes?[index];
+
+                          return elementList != null
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: padVerticalElement,
+                                    horizontal: padHorizontalElement,
+                                  ),
+                                  child: PolaroidFrame.fromModel(
+                                    model: elementList,
+                                    titleSize: titleSize,
+                                    isDataCaching: widget.isDataCaching,
+                                    onTapToSaveReact:
+                                        reactionOnTapSave(elementList),
+                                    onTapToSaveGetAnswer: answerOnTapToSave(
+                                      linkModel: elementList,
+                                      searchInList: state.savedRecipes ?? [],
+                                    ),
+                                    onTapWidget:
+                                        reactionOnTapWidget(elementList),
+                                    key: ValueKey(index.toString()),
+                                  ),
+                                )
+                              : const SizedBox.shrink();
                         },
                         scrollDirection: MediaQuery.of(context).orientation ==
                                 Orientation.portrait
@@ -90,32 +117,69 @@ class _CatalogViewState extends State<CatalogView> {
       },
     );
   }
+
+  VoidCallback reactionOnTapWidget(RecipeModel link) {
+    return () => Navigator.of(context).pushNamed(
+          '/info',
+          arguments: InfoTransfer(link: link),
+        );
+  }
+
+  VoidCallback reactionOnTapSave(RecipeModel linkModel) {
+    return () => context
+        .read<RootBloc>()
+        .add(SavingRecipeIsClickedEvent(clickedRecipe: linkModel));
+  }
+
+  bool Function() answerOnTapToSave(
+      {required RecipeModel linkModel,
+      required List<RecipeModel> searchInList}) {
+    return () =>
+        searchInList.firstWhereOrNull(
+            (recipe) => recipe.reviewId == linkModel.reviewId) !=
+        null;
+  }
 }
+
+enum Mode { saved, net }
 
 class PolaroidFrame extends StatelessWidget {
   const PolaroidFrame(
       {required this.title,
       required this.picture,
-      required this.link,
+      required this.onTapToOpenDetail,
+      required this.onTapToSaveGetAnswer,
+      required this.onTapToSaveReact,
       required this.titleSize,
+      required this.isDataCaching,
       Key? key})
       : super(key: key);
 
   final String title;
   final String picture;
-  final RecipeModel link;
+  final VoidCallback onTapToOpenDetail;
+  final VoidCallback onTapToSaveReact;
+  final bool Function() onTapToSaveGetAnswer;
   final AutoSizeGroup titleSize;
+  final bool isDataCaching;
 
   factory PolaroidFrame.fromModel({
     required RecipeModel model,
     required AutoSizeGroup titleSize,
+    required bool Function() onTapToSaveGetAnswer,
+    required VoidCallback onTapToSaveReact,
+    required VoidCallback onTapWidget,
+    required bool isDataCaching,
     Key? key,
   }) {
     return PolaroidFrame(
       title: model.title,
       picture: model.imageLink,
       titleSize: titleSize,
-      link: model,
+      onTapToOpenDetail: onTapWidget,
+      onTapToSaveGetAnswer: onTapToSaveGetAnswer,
+      onTapToSaveReact: onTapToSaveReact,
+      isDataCaching: isDataCaching,
       key: key,
     );
   }
@@ -167,18 +231,19 @@ class PolaroidFrame extends StatelessWidget {
                         left: sideImgPadding,
                       ),
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            '/info',
-                            arguments: InfoTransfer(link: link),
-                          );
-                        },
+                        onTap: onTapToOpenDetail,
                         child: Container(
                           width: double.maxFinite,
                           height: double.maxFinite,
                           color: Colors.black,
                           child: (picture.isNotEmpty)
-                              ? Image.network(picture)
+                              ? isDataCaching
+                                  ? CachedNetworkImage(
+                                      imageUrl: picture,
+                                      cacheManager:
+                                          consts.AppPictures.pictureCache,
+                                    )
+                                  : Image.network(picture)
                               : Image.asset(consts.pathNoImage),
                         ),
                       ),
@@ -197,17 +262,14 @@ class PolaroidFrame extends StatelessWidget {
                             vertical: commonBottomPadding,
                           ),
                           child: InkWell(
-                            onTap: () {
-                              context.read<RootBloc>().add(
-                                  SavingRecipeIsClickedEvent(
-                                      clickedRecipe: link));
-                            },
+                            onTap: onTapToSaveReact,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
                                   flex: 3,
-                                  child: AddToBook(linkModel: link),
+                                  child: Bookmark(
+                                      checkSaves: onTapToSaveGetAnswer),
                                 ),
                                 Expanded(
                                   flex: 14,
