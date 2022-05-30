@@ -4,6 +4,7 @@ import 'package:hw/bloc/settings_bloc/settings_bloc.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_event.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_state.dart';
 import 'package:hw/components/common_widgets/widgets.dart';
+import 'package:hw/components/locale/locals.dart';
 import 'package:hw/constants/constants.dart' as consts;
 
 class SettingsPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: const CommonAppBar(title: consts.RecipeLocal.titleApp),
+        appBar: CommonAppBar(title: context.locale.titleApp),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -71,14 +72,14 @@ class _SwitchLocalePanelState extends State<SwitchLocalePanel> {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return SwitchListTile(
-          title: state.locale == 'en-EN'
+          title: state.locale == availableLocales[enLocale]
               ? const Text('English')
               : const Text('Русский'),
           onChanged: (bool value) => context.read<SettingsBloc>().add(
               SaveSettingEvent(
                   settingName: consts.localeSettingPref,
-                  setting: value ? 'en-EN' : 'ru-RU')),
-          value: state.locale == 'en-EN',
+                  setting: value ? 'en_US' : 'ru_RU')),
+          value: state.locale == availableLocales[enLocale],
           activeColor: Colors.grey,
           inactiveThumbColor: Colors.grey,
         );

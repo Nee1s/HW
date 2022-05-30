@@ -3,6 +3,7 @@ import 'package:hw/bloc/error_bloc/error_bloc.dart';
 import 'package:hw/bloc/root_bloc/bloc.dart';
 import 'package:hw/components/common_widgets/widgets.dart';
 import 'package:hw/components/delayed_action.dart';
+import 'package:hw/components/locale/locals.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/presentation/pages/preview/bloc/preview_bloc.dart';
 
@@ -10,8 +11,6 @@ import 'grid_view_widgets.dart';
 import 'list_view_widgets.dart';
 
 class PreviewPage extends StatefulWidget {
-  static final GlobalKey<State<StatefulWidget>> globalKey = GlobalKey();
-
   static const path = '/';
 
   const PreviewPage({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class _PreviewPageState extends State<PreviewPage> {
       create: (_) => PreviewPageBloc(),
       child: SafeArea(
         child: Scaffold(
-          appBar: const CommonAppBar(title: consts.RecipeLocal.titleApp),
+          appBar: CommonAppBar(title: context.locale.titleApp),
           body: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -66,8 +65,8 @@ class _PreviewPageState extends State<PreviewPage> {
                         key: const ValueKey('filter_field'),
                         controller: textController,
                         maxLines: 1,
-                        decoration: const InputDecoration(
-                          labelText: consts.RecipeLocal.search,
+                        decoration: InputDecoration(
+                          labelText: context.locale.search,
                           filled: true,
                           fillColor: Colors.transparent,
                         ),
@@ -150,18 +149,18 @@ class BottomNavBar extends StatelessWidget {
             ),
           ),
           child: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.grid_view),
-                label: 'Catalog',
+                icon: const Icon(Icons.grid_view),
+                label: context.locale.catalogTab,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'List',
+                icon: const Icon(Icons.list),
+                label: context.locale.listTab,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.book),
-                label: 'Noted',
+                icon: const Icon(Icons.book),
+                label: context.locale.notedTab,
               ),
             ],
             selectedItemColor: const Color(0xa04761dc),

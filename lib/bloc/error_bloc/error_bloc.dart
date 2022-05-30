@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hw/bloc/error_bloc/error_bloc_event.dart';
 import 'package:hw/bloc/error_bloc/error_bloc_state.dart';
 import 'package:hw/components/dialogs/error_dialog.dart';
-import 'package:hw/constants/complex_type.dart';
 
 import 'error_bloc_event.dart';
 import 'error_bloc_state.dart';
@@ -20,28 +19,29 @@ class ErrorBloc extends Bloc<ErrorEvent, ErrorState> {
 
   void _onNoData(NoDataEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.dataErrorType, error: RecipeLocal.noDataError);
+        errorType: ErrorType.dataErrorType, error: ErrorMessage.noDataError);
   }
 
   void _onEmptyData(EmptyDataEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-      errorType: RecipeLocal.dataErrorType,
-      error: RecipeLocal.emptyDataError,
+      errorType: ErrorType.dataErrorType,
+      error: ErrorMessage.emptyDataError,
     );
   }
 
   void _onLoadingDataError(
       LoadingDataErrorEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.loadingDataErrorType,
-        error: '${event.code}: ${event.message}');
+        errorType: ErrorType.loadingDataErrorType,
+        errorStr: '${event.code}: ${event.message}');
   }
 
   void _onUnbelievableError(
       UnbelievableErrorEvent event, Emitter<ErrorState> emit) {
     showErrorDialog(
-        errorType: RecipeLocal.unbelievableErrorType,
-        error: RecipeLocal.unbelievableError +
+        errorType: ErrorType.unbelievableErrorType,
+        error: ErrorMessage.unbelievableError,
+        clarification:
             (event.place?.isNotEmpty ?? false ? '(${event.place})' : ''));
   }
 }

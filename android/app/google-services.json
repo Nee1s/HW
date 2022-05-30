@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67306155466",
+    "project_id": "test-crashlytic-hw-courses",
+    "storage_bucket": "test-crashlytic-hw-courses.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67306155466:android:cf9a0070e8ce24b6dbb333",
+        "android_client_info": {
+          "package_name": "com.example.hw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67306155466-euc97296kqob9sikj4f6af87k29d5gds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBveRI1kNrvf5nk_XGyRTGuxP0upb6liNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67306155466-euc97296kqob9sikj4f6af87k29d5gds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

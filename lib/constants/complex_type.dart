@@ -17,7 +17,6 @@ const List<String> simplePolaroids = [
 class RecipeLocal {
   static const String titleApp = 'Курсы. ДЗ';
 
-  static const String ratingPrefix = 'Оценка: ';
   static const String search = 'Поиск';
 
   static const String dataErrorType = 'Ошибка данных';

@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hw/bloc/error_bloc/error_bloc.dart';
 import 'package:hw/bloc/root_bloc/bloc.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_event.dart';
 import 'package:hw/bloc/settings_bloc/settings_bloc_state.dart';
+import 'package:hw/components/locale/locals.dart';
 import 'package:hw/components/wraps.dart';
 import 'package:hw/constants/constants.dart' as consts;
 import 'package:hw/data/repositories/recipes/yummly_recipes_repository.dart';
@@ -13,7 +17,16 @@ import 'package:hw/presentation/pages/search/search_page.dart';
 import 'package:hw/presentation/pages/settings/settings_page.dart';
 import 'package:hw/presentation/themes/themes_films_app.dart' as themes;
 
-void main() => runApp(const HWAppCourses());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  runApp(const HWAppCourses());
+}
 
 class HWAppCourses extends StatelessWidget {
   const HWAppCourses({Key? key}) : super(key: key);
@@ -44,12 +57,13 @@ class HWAppCourses extends StatelessWidget {
         ),
       ),
     );
-    //home: const MainPage(),
   }
 }
 
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);
+
+  static final GlobalKey<State<StatefulWidget>> globalKey = GlobalKey();
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -58,10 +72,17 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   @override
   void didChangeDependencies() {
+    //вкурсе что коряво
     context
         .read<SettingsBloc>()
         .add(const LoadSettingEvent(nameSetting: consts.localeSettingPref));
     super.didChangeDependencies();
+
+    // bool isNotDone = true;
+    // Future.delayed(const Duration(milliseconds: 100), () => isNotDone = false);
+    // do {
+    //   null;
+    // } while (isNotDone);
   }
 
   @override
@@ -69,12 +90,19 @@ class _ApplicationState extends State<Application> {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return MaterialApp(
-          theme: themes.lightMainTheme,
           debugShowCheckedModeBanner: false,
+          title: 'Flutter courses',
+          locale: state.locale,
+          localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+            GlobalWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            MyLocalizationsDelegate(initialLocals),
+          ],
+          supportedLocales: availableLocales.values,
+          theme: themes.lightMainTheme,
           themeMode: ThemeMode.light,
           initialRoute: '/',
-          //Что-то картинка на bottomNavigationBar сильно попахивает
-          //время будет - заменю.
           routes: <String, WidgetBuilder>{
             PreviewPage.path: (context) => const PreviewPage(),
             SearchPage.path: (context) => const SearchPage(),
