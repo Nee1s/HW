@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 export 'custom_shapes.dart';
 export 'text_styles.dart';
 
+const errorColor = Color(0xfff7943c);
+
 const FlexSchemeColor _darkScheme = FlexSchemeColor(
   primary: Color(0xffff4f00),
   //Color(0xff54cc0e),
@@ -12,21 +14,19 @@ const FlexSchemeColor _darkScheme = FlexSchemeColor(
   secondaryContainer: Color(0xff975300),
   tertiary: Color(0xff696969),
   tertiaryContainer: Color(0xff534b4f),
-  appBarColor: Color(0xffffbf00),
   error: Color(0xff09b342),
   errorContainer: Color(0xff078c34),
 );
 
 const FlexSchemeColor _lightScheme = FlexSchemeColor(
-  primary: Color(0xff00ff00),
-  primaryContainer: Color(0xff54cc0e),
-  secondary: Color(0xffffbf00),
-  secondaryContainer: Color(0xfffddb6d),
+  primary: Color(0xffd2691e),
+  primaryContainer: Color(0xffcc5500),
+  secondary: Color(0xffff8800),
+  secondaryContainer: Color(0xffff4f00),
   tertiary: Color(0xffc6c3b5),
   tertiaryContainer: Color(0xffa0a0a4),
-  appBarColor: Color(0xffff7e00),
-  error: Color(0xfff36223),
-  errorContainer: Color(0xffffa420),
+  error: Color(0xfff7943c),
+  errorContainer: Color(0xffff7518),
 );
 
 const TextTheme _textTheme = TextTheme(
@@ -53,7 +53,8 @@ const TextTheme _textTheme = TextTheme(
     fontFamily: 'KingthingPetrock',
   ),
   bodyMedium: TextStyle(
-    color: Color(0xffbdbdbd),
+    color: Colors.black,
+    //color: Color(0xffbdbdbd),
     fontSize: 20,
     fontFamily: 'KingthingPetrock',
   ),

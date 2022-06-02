@@ -1,12 +1,15 @@
-import 'movie_model.dart';
+import 'package:equatable/equatable.dart';
 
-export 'package:hw/utilities/modify_model.dart';
+import 'recipe_model.dart';
 
-export 'movie_model.dart';
-export 'movie_model_constructor.dart' show Lang, ConvertLangToStr;
+export 'nutrition_recipe.dart' show Nutrient, ConvertNutritionToStr;
+export 'recipe_model.dart';
 
-class MovieContentModel {
-  final List<MovieModel> localMovies;
+class RecipesContentModel extends Equatable {
+  final List<RecipeModel>? yummlyRecipes;
 
-  const MovieContentModel({required this.localMovies});
+  const RecipesContentModel({required this.yummlyRecipes});
+
+  @override
+  List<Object?> get props => [yummlyRecipes ?? 0];
 }
